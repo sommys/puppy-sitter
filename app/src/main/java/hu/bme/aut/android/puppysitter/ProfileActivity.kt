@@ -20,12 +20,19 @@ class ProfileActivity : AppCompatActivity() {
             val imageStream: InputStream = resources.openRawResource(R.raw.szemcso1)
             val bitmap: Bitmap = BitmapFactory.decodeStream(imageStream)
             bindingSitter.ivProfilePicture.setImageBitmap(bitmap)
+            bindingSitter.btnEditProfile.setOnClickListener {
+                startActivity(Intent(this, EditProfileActivity::class.java).putExtra("USER_TYPE", "SITTER"))
+            }
         } else {
             bindingDog = ActivityProfileDogBinding.inflate(layoutInflater)
             setContentView(bindingDog.root)
             val imageStream: InputStream = resources.openRawResource(R.raw.szemcso2)
             val bitmap: Bitmap = BitmapFactory.decodeStream(imageStream)
             bindingDog.ivProfilePicture.setImageBitmap(bitmap)
+
+            bindingDog.btnEditProfile.setOnClickListener {
+                startActivity(Intent(this, EditProfileActivity::class.java).putExtra("USER_TYPE", "DOG"))
+            }
         }
     }
 

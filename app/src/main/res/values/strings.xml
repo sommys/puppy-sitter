@@ -16,6 +16,11 @@ Donec vehicula vitae tortor sed fermentum. Sed non condimentum nisl. Curabitur s
 Aliquam in imperdiet ipsum, vitae posuere ligula. Etiam et metus aliquam, vehicula turpis ut, vestibulum massa. Duis imperdiet quis ligula eget accumsan. Pellentesque sodales nulla ut erat placerat, nec maximus risus feugiat. Sed volutpat justo id leo aliquet, non varius sapien varius. Vestibulum viverra accumsan sagittis. Sed sollicitudin elit non lectus scelerisque, ac dignissim sapien suscipit.
 
 Etiam at arcu ac nunc bibendum convallis. Mauris quis congue libero, ut ultricies sapien. In eget consequat est. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Mauris eget euismod sapien, eget pretium dui. Suspendisse gravida scelerisque tellus sed dapibus. Fusce blandit nulla dui, in lacinia libero mollis sed. Maecenas placerat pretium mi vel viverra. Mauris eget arcu erat. Proin ac bibendum enim. Ut ultricies tortor in nunc porttitor viverra. Maecenas tincidunt neque sit amet turpis scelerisque sollicitudin. Curabitur ornare eleifend dui, vitae malesuada risus elementum non.</string>
+    <string name="bioHint">Bio...</string>
+    <string name="btnCancel">CANCEL</string>
+    <string name="editPictureDialogMessage">What do you want to do with the picture?</string>
+    <string name="btnDelete">Delete</string>
+    <string name="btnEdit">Edit</string>
     <string-array name="usertype_array">
         <item>Dog</item>
         <item>Sitter</item>
