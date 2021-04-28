@@ -1,6 +1,8 @@
 package hu.bme.aut.android.puppysitter
 
 import android.os.Bundle
+import android.util.Log
+import android.widget.FrameLayout
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.FragmentTransaction
 import hu.bme.aut.android.puppysitter.ui.LoginFragment
@@ -14,5 +16,16 @@ class StartActivity : AppCompatActivity() {
         val ft: FragmentTransaction = supportFragmentManager.beginTransaction()
         ft.replace(R.id.frameLayout, LoginFragment(supportFragmentManager))
         ft.commit()
+    }
+
+    override fun onBackPressed() {
+        if(supportFragmentManager.backStackEntryCount > 0){
+            supportFragmentManager.popBackStack()
+            val ft: FragmentTransaction = supportFragmentManager.beginTransaction()
+            ft.replace(R.id.frameLayout, LoginFragment(supportFragmentManager))
+            ft.commit()
+        } else {
+            super.onBackPressed()
+        }
     }
 }

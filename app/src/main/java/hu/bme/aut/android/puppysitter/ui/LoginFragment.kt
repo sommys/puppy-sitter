@@ -1,5 +1,7 @@
 package hu.bme.aut.android.puppysitter.ui
 
+import android.content.Context
+import android.content.Intent
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.os.Bundle
@@ -12,6 +14,8 @@ import android.widget.Button
 import android.widget.ImageView
 import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.FragmentTransaction
+import com.google.android.material.textfield.TextInputEditText
+import hu.bme.aut.android.puppysitter.ProfileActivity
 import hu.bme.aut.android.puppysitter.R
 import java.io.InputStream
 
@@ -27,11 +31,18 @@ class LoginFragment(val activityFragmentManager: FragmentManager) : Fragment() {
         val bitmap: Bitmap = BitmapFactory.decodeStream(imageStream)
         logoImage.setImageBitmap(bitmap)
         val registerButton: Button = root.findViewById(R.id.btnSignUp)
+        val loginButton: Button = root.findViewById(R.id.btnLogin)
         registerButton.setOnClickListener {
-            val fragmentTransaction: FragmentTransaction = activityFragmentManager.beginTransaction()
-            fragmentTransaction.replace(R.id.frameLayout, RegisterFragment())
-            fragmentTransaction.commit()
-            Log.d("FOS", "FRAGMENTCSERE")
+            val ft: FragmentTransaction = activityFragmentManager.beginTransaction()
+            ft.replace(R.id.frameLayout, RegisterFragment())
+            ft.addToBackStack("loginFragment")
+            ft.commit()
+        }
+        loginButton.setOnClickListener{
+            val intent = Intent(activity, ProfileActivity::class.java)
+            val type: String = if (root.findViewById<TextInputEditText>(R.id.itUsername).text.isNullOrEmpty()) "SITTER" else "DOG"
+            intent.putExtra("USER_TYPE", type)
+            startActivity(intent)
         }
         return root
     }
