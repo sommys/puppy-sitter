@@ -9,21 +9,11 @@
         android:id="@+id/textView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/editPictureDialogMessage"
+        android:text="@string/uploadPictureDialogMessage"
         android:layout_marginTop="24dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
-
-    <ImageView
-        android:id="@+id/picture"
-        android:layout_height="wrap_content"
-        android:layout_width="wrap_content"
-        app:layout_constraintHeight_max="300dp"
-        android:layout_marginTop="18dp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/textView"/>
 
     <Button
         android:id="@+id/btnCancel"
@@ -32,25 +22,25 @@
         android:text="@string/btnCancel"
         android:layout_marginHorizontal="5dp"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@id/btnDelete" />
+        app:layout_constraintTop_toTopOf="@id/btnCamera" />
 
     <Button
-        android:id="@+id/btnDelete"
+        android:id="@+id/btnCamera"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/btnDelete"
+        android:text="@string/btnCamera"
         android:layout_marginTop="18dp"
         android:layout_marginHorizontal="5dp"
         app:layout_constraintEnd_toStartOf="@id/btnGallery"
         app:layout_constraintStart_toEndOf="@id/btnCancel"
-        app:layout_constraintTop_toBottomOf="@id/picture" />
+        app:layout_constraintTop_toBottomOf="@id/textView" />
 
     <Button
         android:id="@+id/btnGallery"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/btnEdit"
+        android:text="@string/btnGallery"
         android:layout_marginHorizontal="5dp"
-        app:layout_constraintTop_toTopOf="@id/btnDelete"
+        app:layout_constraintTop_toTopOf="@id/btnCamera"
         app:layout_constraintEnd_toEndOf="parent"/>
 </androidx.constraintlayout.widget.ConstraintLayout>

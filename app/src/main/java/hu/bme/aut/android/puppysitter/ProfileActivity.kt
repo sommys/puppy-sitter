@@ -23,6 +23,9 @@ class ProfileActivity : AppCompatActivity() {
             bindingSitter.btnEditProfile.setOnClickListener {
                 startActivity(Intent(this, EditProfileActivity::class.java).putExtra("USER_TYPE", "SITTER"))
             }
+            bindingSitter.btnMatch.setOnClickListener {
+                startActivity(Intent(this, MatcherActivity::class.java))
+            }
         } else {
             bindingDog = ActivityProfileDogBinding.inflate(layoutInflater)
             setContentView(bindingDog.root)
