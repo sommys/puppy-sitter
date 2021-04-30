@@ -30,14 +30,17 @@ class EditPictureDialogFragment(val iv: ImageView): DialogFragment() {
         }
         binding.btnDelete.setOnClickListener {
             //TODO delete the pic from the users piclist
+            //TODO rearrange pictures
+            //TODO do not let delete last photo
             iv.setImageBitmap(BitmapFactory.decodeResource(resources,R.drawable.ic_plus_circle_black_48dp))
             iv.contentDescription="stock"
             dismiss()
         }
         binding.btnGallery.setOnClickListener {
-            //TODO picture picker dialog --> amit kivalaszt, azt berakni a mostani helyett
             UploadPictureFragment(iv).show(requireActivity().supportFragmentManager, "")
             dismiss()
         }
     }
+
+
 }

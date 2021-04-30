@@ -28,7 +28,6 @@ class LoginFragment(val activityFragmentManager: FragmentManager) : Fragment() {
 
     private lateinit var binding: FragmentLoginBinding
     private val firebaseAuth: FirebaseAuth = FirebaseAuth.getInstance()
-
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -42,6 +41,7 @@ class LoginFragment(val activityFragmentManager: FragmentManager) : Fragment() {
             ft.commit()
         }
         binding.btnLogin.setOnClickListener{
+            //TODO login --> find user object, load data to make it available everywhere
             if(validateLogin())
                 login(activity, binding.itLoginEmail.text.toString(), binding.itPassword.text.toString())
         }

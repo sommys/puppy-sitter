@@ -51,15 +51,20 @@ class UploadPictureFragment(val iv: ImageView): DialogFragment() {
             REQUEST_CAMERA_IMAGE -> {
                 if (resultCode == Activity.RESULT_OK) {
                     val img = data!!.extras!!["data"] as Bitmap
-                    (activity as EditProfileActivity).addImageBitmap(iv, img)
+                    if(iv.contentDescription == "stock")
+                        (activity as EditProfileActivity).addImageBitmap(EditProfileActivity.getFirstEmptyImageView(activity as EditProfileActivity)!!, img)
+                    else
+                        (activity as EditProfileActivity).addImageBitmap(iv, img)
                     dismiss()
                 }
             }
             REQUEST_PICK_IMAGE -> {
                 if (resultCode == Activity.RESULT_OK) {
                     val img = MediaStore.Images.Media.getBitmap((activity as EditProfileActivity).contentResolver, data!!.data)
-                    //TODO hozzaadni a felhasznalo keplistahoz
-                    (activity as EditProfileActivity).addImageBitmap(iv, img)
+                    if(iv.contentDescription == "stock")
+                        (activity as EditProfileActivity).addImageBitmap(EditProfileActivity.getFirstEmptyImageView(activity as EditProfileActivity)!!, img)
+                    else
+                        (activity as EditProfileActivity).addImageBitmap(iv, img)
                     dismiss()
                 }
             }

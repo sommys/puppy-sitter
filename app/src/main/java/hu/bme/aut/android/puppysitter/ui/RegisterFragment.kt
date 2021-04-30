@@ -42,6 +42,9 @@ class RegisterFragment(): Fragment() {
             binding.spinnerType.adapter = adapter
         }
         binding.btnSignUpLogin.setOnClickListener {
+            //TODO add basic profile picture which should be changed later on
+            //TODO new reg --> new user object, store it
+            //TODO new reg --> put uid into matchablebe collection
             if(validateRegistration())
                 FirebaseAuthHelper.register(activity, binding.itRegisterEmail.text.toString(), binding.itRegisterUsername.text.toString(), binding.itPassword.text.toString())
         }

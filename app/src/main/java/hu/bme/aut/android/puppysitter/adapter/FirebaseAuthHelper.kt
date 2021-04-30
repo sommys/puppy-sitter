@@ -20,7 +20,8 @@ class FirebaseAuthHelper {
                 .addOnSuccessListener {
                     success = true
                     val intent = Intent(activity, ProfileActivity::class.java)
-                    //TODO adatbazisbol megszerezni a tipusat
+                    //TODO get type from firestore
+                    //TODO add the type field to firestore
                     val type: String = if (email.isNullOrEmpty()) "DOG" else "SITTER"
                     intent.putExtra("USER_TYPE", type)
                     activity?.startActivity(intent)

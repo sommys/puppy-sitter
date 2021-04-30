@@ -5,6 +5,7 @@ import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import com.google.firebase.auth.FirebaseAuth
 import hu.bme.aut.android.puppysitter.databinding.ActivityProfileDogBinding
 import hu.bme.aut.android.puppysitter.databinding.ActivityProfileSitterBinding
 import java.io.InputStream
@@ -17,6 +18,7 @@ class ProfileActivity : AppCompatActivity() {
         if(intent.extras?.get("USER_TYPE") == "SITTER"){
             bindingSitter = ActivityProfileSitterBinding.inflate(layoutInflater)
             setContentView(bindingSitter.root)
+            //TODO show own profilpicture instread of burnt in Szemcso pic
             val imageStream: InputStream = resources.openRawResource(R.raw.szemcso1)
             val bitmap: Bitmap = BitmapFactory.decodeStream(imageStream)
             bindingSitter.ivProfilePicture.setImageBitmap(bitmap)
@@ -40,7 +42,7 @@ class ProfileActivity : AppCompatActivity() {
     }
 
     override fun onBackPressed() {
-        //TODO: logout
+        FirebaseAuth.getInstance().signOut()
         val intent = Intent(this, StartActivity::class.java)
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
         startActivity(intent)
