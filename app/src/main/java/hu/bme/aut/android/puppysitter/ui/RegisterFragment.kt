@@ -12,46 +12,41 @@ import android.view.ViewGroup
 import android.widget.*
 import androidx.fragment.app.Fragment
 import com.google.android.material.textfield.TextInputEditText
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.auth.FirebaseAuthProvider
+import com.google.firebase.auth.UserProfileChangeRequest
 import hu.bme.aut.android.puppysitter.ProfileActivity
 import hu.bme.aut.android.puppysitter.R
 import hu.bme.aut.android.puppysitter.StartActivity
+import hu.bme.aut.android.puppysitter.adapter.FirebaseAuthHelper
+import hu.bme.aut.android.puppysitter.databinding.FragmentRegisterBinding
+import hu.bme.aut.android.puppysitter.extensions.validateNonEmpty
 import java.io.InputStream
 
 class RegisterFragment(): Fragment() {
+
+    private val firebaseAuth: FirebaseAuth = FirebaseAuth.getInstance()
+    private lateinit var binding: FragmentRegisterBinding
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        val root = inflater.inflate(R.layout.fragment_register, container, false)
-
-        val logoImage: ImageView = root.findViewById(R.id.ivLogo)
-        val imageStream: InputStream = resources.openRawResource(R.raw.nyonya)
-        val bitmap: Bitmap = BitmapFactory.decodeStream(imageStream)
-        logoImage.setImageBitmap(bitmap)
-
-        val spinner = root.findViewById<Spinner>(R.id.spinnerType)
+        binding = FragmentRegisterBinding.inflate(layoutInflater)
+        binding.ivLogo.setImageBitmap(BitmapFactory.decodeStream(resources.openRawResource(R.raw.nyonya)))
         ArrayAdapter.createFromResource(
             requireContext(),
             R.array.usertype_array,
             android.R.layout.simple_spinner_item
         ).also { adapter ->
-            // Specify the layout to use when the list of choices appears
             adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
-            // Apply the adapter to the spinner
-            spinner.adapter = adapter
+            binding.spinnerType.adapter = adapter
         }
-
-        val signUpButton = root.findViewById<Button>(R.id.btnLogin)
-        signUpButton.setOnClickListener {
-            Log.d("REGISTER_EMAIL", root.findViewById<TextInputEditText>(R.id.itEmail).text.toString())
-            Log.d("REGISTER_UNAME", root.findViewById<TextInputEditText>(R.id.itUsername).text.toString())
-            Log.d("REGISTER_PW", root.findViewById<TextInputEditText>(R.id.itPassword).text.toString())
-            Log.d("REGISTER_TYPE", spinner.selectedItem.toString())
-            val intent = Intent(activity, ProfileActivity::class.java)
-            val type: String = spinner.selectedItem.toString().toUpperCase()
-            intent.putExtra("USER_TYPE", type)
-            startActivity(intent)
+        binding.btnSignUpLogin.setOnClickListener {
+            if(validateRegistration())
+                FirebaseAuthHelper.register(activity, binding.itRegisterEmail.text.toString(), binding.itRegisterUsername.text.toString(), binding.itPassword.text.toString())
         }
-        return root
+        return binding.root
     }
+
+    private fun validateRegistration() = binding.itRegisterEmail.validateNonEmpty() && binding.itRegisterUsername.validateNonEmpty() && binding.itPassword.validateNonEmpty()
 }

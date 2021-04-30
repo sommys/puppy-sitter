@@ -25,6 +25,7 @@ Etiam at arcu ac nunc bibendum convallis. Mauris quis congue libero, ut ultricie
     <string name="uploadPictureDialogMessage">Please choose an action for adding picture!</string>
     <string name="btnCamera">Take Photo</string>
     <string name="btnGallery">Gallery</string>
+    <string name="btnSubmit">SAVE CHANGES</string>
     <string-array name="usertype_array">
         <item>Dog</item>
         <item>Sitter</item>

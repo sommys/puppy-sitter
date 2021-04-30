@@ -17,7 +17,7 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/tilEmail"
+        android:id="@+id/tilRegisterEmail"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="32dp"
@@ -25,7 +25,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/ivLogo">
         <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/itEmail"
+            android:id="@+id/itRegisterEmail"
             android:inputType="textEmailAddress"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -33,15 +33,15 @@
     </com.google.android.material.textfield.TextInputLayout>
 
     <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/tilUsername"
+        android:id="@+id/tilRegisterUsername"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="32dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tilEmail">
+        app:layout_constraintTop_toBottomOf="@+id/tilRegisterEmail">
         <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/itUsername"
+            android:id="@+id/itRegisterUsername"
             android:inputType="text"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -55,7 +55,7 @@
         android:layout_marginTop="32dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tilUsername">
+        app:layout_constraintTop_toBottomOf="@+id/tilRegisterUsername">
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/itPassword"
             android:inputType="textPassword"
@@ -74,7 +74,7 @@
         app:layout_constraintTop_toBottomOf="@+id/tilPassword"/>
 
     <Button
-        android:id="@+id/btnLogin"
+        android:id="@+id/btnSignUpLogin"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/btnSignUpAndLogIn"

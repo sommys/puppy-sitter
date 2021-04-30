@@ -12,38 +12,41 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
 import android.widget.ImageView
+import android.widget.Toast
 import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.FragmentTransaction
 import com.google.android.material.textfield.TextInputEditText
+import com.google.firebase.auth.FirebaseAuth
 import hu.bme.aut.android.puppysitter.ProfileActivity
 import hu.bme.aut.android.puppysitter.R
+import hu.bme.aut.android.puppysitter.adapter.FirebaseAuthHelper.Companion.login
+import hu.bme.aut.android.puppysitter.databinding.FragmentLoginBinding
+import hu.bme.aut.android.puppysitter.extensions.validateNonEmpty
 import java.io.InputStream
 
 class LoginFragment(val activityFragmentManager: FragmentManager) : Fragment() {
+
+    private lateinit var binding: FragmentLoginBinding
+    private val firebaseAuth: FirebaseAuth = FirebaseAuth.getInstance()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        val root = inflater.inflate(R.layout.fragment_login, container, false)
-        val logoImage: ImageView = root.findViewById(R.id.ivLogo)
-        val imageStream: InputStream = resources.openRawResource(R.raw.app_logo)
-        val bitmap: Bitmap = BitmapFactory.decodeStream(imageStream)
-        logoImage.setImageBitmap(bitmap)
-        val registerButton: Button = root.findViewById(R.id.btnSignUp)
-        val loginButton: Button = root.findViewById(R.id.btnLogin)
-        registerButton.setOnClickListener {
+        binding = FragmentLoginBinding.inflate(layoutInflater)
+        binding.ivLogo.setImageBitmap(BitmapFactory.decodeStream(resources.openRawResource(R.raw.app_logo)))
+        binding.btnSignUp.setOnClickListener {
             val ft: FragmentTransaction = activityFragmentManager.beginTransaction()
             ft.replace(R.id.frameLayout, RegisterFragment())
             ft.addToBackStack("loginFragment")
             ft.commit()
         }
-        loginButton.setOnClickListener{
-            val intent = Intent(activity, ProfileActivity::class.java)
-            val type: String = if (root.findViewById<TextInputEditText>(R.id.itUsername).text.isNullOrEmpty()) "SITTER" else "DOG"
-            intent.putExtra("USER_TYPE", type)
-            startActivity(intent)
+        binding.btnLogin.setOnClickListener{
+            if(validateLogin())
+                login(activity, binding.itLoginEmail.text.toString(), binding.itPassword.text.toString())
         }
-        return root
+        return binding.root
     }
+
+    private fun validateLogin() = binding.itLoginEmail.validateNonEmpty() && binding.itPassword.validateNonEmpty()
 }

@@ -9,6 +9,7 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.LinearLayout
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.view.marginTop
 import androidx.viewpager.widget.PagerAdapter
 import com.google.android.material.appbar.AppBarLayout
 import hu.bme.aut.android.puppysitter.databinding.ActivityMatcherBinding

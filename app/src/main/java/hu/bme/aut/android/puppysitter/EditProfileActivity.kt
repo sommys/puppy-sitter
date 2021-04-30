@@ -19,9 +19,6 @@ class EditProfileActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityEditProfileBinding.inflate(layoutInflater)
-//        binding.picturesLayout.setOnItemClickListener{ adapterView: AdapterView<*>, view1: View, i: Int, l: Long ->
-//            Toast.makeText(this, "${view1.id}", Toast.LENGTH_SHORT).show()
-//        }
         //TODO lekerni a kepeket es amennyi van, beallitani
         // ...
         setOnImageClickListeners()

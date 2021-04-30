@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "137889287431",
+    "project_id": "puppysitter-627fd",
+    "storage_bucket": "puppysitter-627fd.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:137889287431:android:2ea66ad440117e4b62c9a2",
+        "android_client_info": {
+          "package_name": "hu.bme.aut.android.puppysitter"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "137889287431-8ornfats4v6aglrj1uq7sn2evj8s0u0a.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBOfeGjMktOxOUq3EBBtQp5ZGXD1EekoYQ"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "137889287431-8ornfats4v6aglrj1uq7sn2evj8s0u0a.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

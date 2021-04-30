@@ -5,11 +5,11 @@ import android.util.Log
 import android.widget.FrameLayout
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.FragmentTransaction
+import com.google.firebase.auth.FirebaseAuth
 import hu.bme.aut.android.puppysitter.ui.LoginFragment
 
 
 class StartActivity : AppCompatActivity() {
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_start)
