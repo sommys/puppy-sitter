@@ -31,14 +31,12 @@ class EditDetailsFragment(val userType: String) : Fragment() {
 
                 val usr = Sitter(currentUser?.email,currentUser?.displayName,EditProfileActivity.getPicturePaths(activity as EditProfileActivity),"testBio", parseInt(bindingSitter.itAge.text.toString()), Location("fused"))
                 val userData = hashMapOf(
-                    "userName" to usr.userName,
-                    "email" to usr.email,
                     "pictures" to usr.pictures,
                     "bio" to usr.bio,
                     "age" to usr.age,
                     "location" to usr.location
                 )
-                firebaseDB.collection("sitters").document(currentUser!!.uid).set(userData)
+                firebaseDB.collection("sitters").document(currentUser!!.uid).update(userData)
             }
             bindingSitter.root
         }

@@ -5,8 +5,8 @@ import android.graphics.BitmapFactory
 import android.location.Location
 
 data class User(
-    protected val email: String = "",
-    protected val userName: String = "",
+    val email: String = "",
+    val userName: String = "",
 //    protected val name: String = "",
 //    protected val pictures: MutableList<Bitmap> = mutableListOf<Bitmap>(),
     protected var bio: String = "",
