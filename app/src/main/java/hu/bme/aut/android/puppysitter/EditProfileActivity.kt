@@ -18,6 +18,7 @@ import android.widget.Toast
 import androidx.annotation.RequiresApi
 import androidx.core.graphics.drawable.toBitmap
 import com.bumptech.glide.Glide
+import com.google.common.io.Resources
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.storage.FirebaseStorage
@@ -53,25 +54,41 @@ class EditProfileActivity : AppCompatActivity() {
             }
             return null
         }
-        //not used
-        fun savePictures(epa: EditProfileActivity, store: StorageReference,path: String): ArrayList<String>{
-            val ret: ArrayList<String> = arrayListOf()
+
+        fun rearrangePhotos(epa: EditProfileActivity){
+            val bitmaps: ArrayList<Bitmap> = arrayListOf()
+            epa.pictureHolders.forEach { iv ->
+                if(iv.contentDescription != "stock") {
+                    bitmaps.add(iv.drawable.toBitmap())
+                }
+                iv.setImageBitmap(BitmapFactory.decodeResource(epa.resources,R.drawable.ic_plus_circle_black_48dp))
+                iv.contentDescription = "stock"
+            }
+            var i = 0
+            bitmaps.forEach {
+                epa.pictureHolders[i].setImageBitmap(it)
+                epa.pictureHolders[i].contentDescription = epa.pictureHolders[i].id.toString()
+                i++
+            }
+            val storage :StorageReference = FirebaseStorage.getInstance().reference.child("images/${FirebaseAuth.getInstance().currentUser.uid}")
+            savePictures(epa, storage)
+        }
+
+        fun savePictures(epa: EditProfileActivity, store: StorageReference){
             for(i: ImageView in epa.pictureHolders){
                 if(i.contentDescription != "stock"){
                     val baos = ByteArrayOutputStream()
                     i.drawable.toBitmap().compress(Bitmap.CompressFormat.JPEG, 100, baos)
                     val data = baos.toByteArray()
-                    var uploadTask = store.child(i.contentDescription.toString()).putBytes(data)
+                    var uploadTask = store.child(i.id.toString()).putBytes(data)
                     uploadTask.addOnFailureListener {
-                    }.addOnSuccessListener { taskSnapshot ->
-                        ret.add(taskSnapshot.storage.path)
-                        i.contentDescription = taskSnapshot.storage.path
+                    }.addOnSuccessListener {
+                        i.contentDescription = i.id.toString()
                     }
                 } else {
-                    break
+                    store.child(i.id.toString()).delete()
                 }
             }
-            return ret
         }
     }
     private lateinit var binding: ActivityEditProfileBinding
@@ -98,7 +115,7 @@ class EditProfileActivity : AppCompatActivity() {
         val picturePaths: ArrayList<String> = arrayListOf()
         for(iv: ImageView in pictureHolders){
             if(iv.contentDescription != "stock"){
-                picturePaths.add("$pathPrefix/${iv.id}")
+                picturePaths.add("$pathPrefix/${iv.contentDescription}")
             } else {
                 break
             }
@@ -117,9 +134,9 @@ class EditProfileActivity : AppCompatActivity() {
                     val picturePaths = it.result?.get("pictures") as ArrayList<String>
                     for (path: String in picturePaths) {
                         val picHolder = pictureHolders[i++]
-                        storageRef.child(path).downloadUrl.addOnSuccessListener {
-                            Glide.with(this@EditProfileActivity).load(it).into(picHolder)
-                            picHolder.contentDescription = picHolder.id.toString()
+                        storageRef.child(path).downloadUrl.addOnSuccessListener {uri ->
+                            Glide.with(this@EditProfileActivity).load(uri).into(picHolder)
+                            picHolder.contentDescription = path.substring(path.lastIndexOf("/")+1)
                         }
                     }
                 }
@@ -180,7 +197,7 @@ class EditProfileActivity : AppCompatActivity() {
 
     private fun onImageClick(it: ImageView) {
         if(it.contentDescription != "stock")
-            EditPictureDialogFragment(it).show(supportFragmentManager, "")
+            EditPictureDialogFragment(it, binding.picturesLayout.root).show(supportFragmentManager, "")
         else
             UploadPictureFragment(it).show(supportFragmentManager, "")
     }
