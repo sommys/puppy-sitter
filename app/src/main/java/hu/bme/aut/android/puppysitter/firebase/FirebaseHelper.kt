@@ -1,19 +1,13 @@
-package hu.bme.aut.android.puppysitter.adapter
+package hu.bme.aut.android.puppysitter.firebase
 
-import android.app.Activity
 import android.content.Intent
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
-import android.provider.ContactsContract
-import android.util.Log
 import android.widget.Toast
-import androidx.core.content.ContextCompat.startActivity
-import androidx.core.graphics.drawable.toBitmap
 import androidx.fragment.app.FragmentActivity
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.auth.UserProfileChangeRequest
-import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.storage.FirebaseStorage
 import com.google.firebase.storage.StorageReference
@@ -21,7 +15,6 @@ import hu.bme.aut.android.puppysitter.ProfileActivity
 import hu.bme.aut.android.puppysitter.R
 import hu.bme.aut.android.puppysitter.model.Dog
 import hu.bme.aut.android.puppysitter.model.Sitter
-import hu.bme.aut.android.puppysitter.model.User
 import kotlinx.coroutines.*
 import java.io.ByteArrayOutputStream
 

@@ -27,6 +27,7 @@ class ProfileActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         usrType = intent.extras?.get("USER_TYPE") as String
+        //TODO get user object from login and set the view items related to the data
         if(usrType == "SITTER"){
             bindingSitter = ActivityProfileSitterBinding.inflate(layoutInflater)
             setContentView(bindingSitter.root)

@@ -9,13 +9,9 @@ import android.widget.*
 import androidx.fragment.app.Fragment
 import com.google.firebase.auth.FirebaseAuth
 import hu.bme.aut.android.puppysitter.R
-import hu.bme.aut.android.puppysitter.adapter.FirebaseHelper
+import hu.bme.aut.android.puppysitter.firebase.FirebaseHelper
 import hu.bme.aut.android.puppysitter.databinding.FragmentRegisterBinding
 import hu.bme.aut.android.puppysitter.extensions.validateNonEmpty
-import kotlinx.coroutines.GlobalScope
-import kotlinx.coroutines.async
-import kotlinx.coroutines.coroutineScope
-import kotlin.coroutines.coroutineContext
 
 class RegisterFragment(): Fragment() {
 

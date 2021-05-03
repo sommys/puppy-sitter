@@ -98,6 +98,8 @@ class EditProfileActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        //TODO get user object from login and set the view items related to the data
+        //TODO add max range for match slider to layout
         binding = ActivityEditProfileBinding.inflate(layoutInflater)
         pathPrefix = "images/${FirebaseAuth.getInstance().currentUser?.uid}"
         setOnImageClickListeners()

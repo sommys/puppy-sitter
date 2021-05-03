@@ -21,6 +21,8 @@ class MatcherActivity : AppCompatActivity() {
     private lateinit var adapter: ViewPagerAdapter
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        //TODO get matchable profiles [and filter by distance later on]
+        //TODO set first matchable profile pictures and data to the layout
         binding = ActivityMatcherBinding.inflate(layoutInflater)
         val images: MutableList<Bitmap> = mutableListOf<Bitmap>()
         images.add(BitmapFactory.decodeStream(resources.openRawResource(R.raw.penny1)))

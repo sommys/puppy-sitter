@@ -10,7 +10,7 @@ import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.FragmentTransaction
 import com.google.firebase.auth.FirebaseAuth
 import hu.bme.aut.android.puppysitter.R
-import hu.bme.aut.android.puppysitter.adapter.FirebaseHelper.Companion.login
+import hu.bme.aut.android.puppysitter.firebase.FirebaseHelper.Companion.login
 import hu.bme.aut.android.puppysitter.databinding.FragmentLoginBinding
 import hu.bme.aut.android.puppysitter.extensions.validateNonEmpty
 
@@ -31,7 +31,6 @@ class LoginFragment(val activityFragmentManager: FragmentManager) : Fragment() {
             ft.commit()
         }
         binding.btnLogin.setOnClickListener{
-
             if(validateLogin())
                 login(activity, binding.itLoginEmail.text.toString(), binding.itPassword.text.toString())
         }
