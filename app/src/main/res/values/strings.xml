@@ -31,6 +31,13 @@ Etiam at arcu ac nunc bibendum convallis. Mauris quis congue libero, ut ultricie
     <string name="activityHint">Activity needed in a day (hours)...</string>
     <string name="weightHint">Weight...</string>
     <string name="breedHint">Breed...</string>
+    <string name="usernameLabel">Username:</string>
+    <string name="realNameLabel">Real name:</string>
+    <string name="ageLabel">Age:</string>
+    <string name="bioLabel">Bio</string>
+    <string name="breedLabel">Breed:</string>
+    <string name="weightLabel">Weight:</string>
+    <string name="activityLabel">Activity:</string>
     <string-array name="usertype_array">
         <item>Dog</item>
         <item>Sitter</item>

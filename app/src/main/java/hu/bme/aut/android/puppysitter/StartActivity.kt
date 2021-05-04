@@ -25,7 +25,7 @@ class StartActivity : AppCompatActivity() {
             ft.replace(R.id.frameLayout, LoginFragment(supportFragmentManager))
             ft.commit()
         } else {
-            super.onBackPressed()
+            finishAffinity()
         }
     }
 }

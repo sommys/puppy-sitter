@@ -3,6 +3,7 @@ package hu.bme.aut.android.puppysitter.firebase
 import android.content.Intent
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
+import android.location.Location
 import android.widget.Toast
 import androidx.fragment.app.FragmentActivity
 import com.google.firebase.auth.FirebaseAuth
@@ -11,10 +12,11 @@ import com.google.firebase.auth.UserProfileChangeRequest
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.storage.FirebaseStorage
 import com.google.firebase.storage.StorageReference
+import hu.bme.aut.android.puppysitter.MatcherActivity
 import hu.bme.aut.android.puppysitter.ProfileActivity
 import hu.bme.aut.android.puppysitter.R
 import hu.bme.aut.android.puppysitter.model.Dog
-import hu.bme.aut.android.puppysitter.model.Sitter
+import hu.bme.aut.android.puppysitter.model.User
 import kotlinx.coroutines.*
 import java.io.ByteArrayOutputStream
 
@@ -33,28 +35,51 @@ class FirebaseHelper {
                     firebaseUser = firebaseAuth.currentUser!!
                     firebaseUserStorage = firebaseStorageRef.child("images/${firebaseUser.uid}")
                     val intent = Intent(activity, ProfileActivity::class.java)
-
-                    //TODO login --> create user object, load data to make it available everywhere
-                    //TODO set active user state???
                     var usrType = ""
                     firebaseFirestore.collection("sitters").document(firebaseUser.uid).get().addOnCompleteListener {
                         if(it.isSuccessful){
+                            var loc = Location("fused")
+                            loc.latitude = (it.result.get("location") as HashMap<String, Any>)["latitude"] as Double
+                            loc.longitude = (it.result.get("location") as HashMap<String, Any>)["longitude"] as Double
+                            val usr = User(email,
+                                firebaseUser.displayName!!,
+                                it.result.get("realName") as String?,
+                                it.result.get("pictures") as ArrayList<String>,
+                                it.result.get("bio") as String?,
+                                it.result.get("age") as Long?,
+                                loc
+                            )
                             usrType = it.result?.data?.get("user_type")?.toString() ?: ""
                             if(usrType != "") {
                                 intent.putExtra("USER_TYPE", usrType)
+                                intent.putExtra("USER", usr)
                                 activity?.startActivity(intent)
                                 activity?.finish()
-                            }
-                        }
-                    }
-                    if(usrType == ""){
-                        firebaseFirestore.collection("dogs").document(firebaseUser.uid).get().addOnCompleteListener {
-                            if(it.isSuccessful) {
-                                usrType = it.result?.data?.get("user_type")?.toString() ?: ""
-                                if(usrType != "") {
-                                    intent.putExtra("USER_TYPE", usrType)
-                                    activity?.startActivity(intent)
-                                    activity?.finish()
+                            } else {
+                                firebaseFirestore.collection("dogs").document(firebaseUser.uid).get().addOnCompleteListener { dogtask ->
+                                    if(dogtask.isSuccessful) {
+                                        var loc = Location("fused")
+                                        loc.latitude = (dogtask.result.get("location") as HashMap<String, Any>)["latitude"] as Double
+                                        loc.longitude = (dogtask.result.get("location") as HashMap<String, Any>)["longitude"] as Double
+                                        val usr = Dog(email,
+                                            firebaseUser.displayName!!,
+                                            dogtask.result.get("realName") as String?,
+                                            dogtask.result.get("pictures") as ArrayList<String>,
+                                            dogtask.result.get("bio") as String?,
+                                            dogtask.result.get("age") as Long?,
+                                            loc,
+                                            dogtask.result.get("breed") as String?,
+                                            dogtask.result.get("weight") as Long?,
+                                            dogtask.result.get("activity") as Long?
+                                        )
+                                        usrType = dogtask.result?.data?.get("user_type")?.toString() ?: ""
+                                        if(usrType != "") {
+                                            intent.putExtra("USER_TYPE", usrType)
+                                            intent.putExtra("USER", usr)
+                                            activity?.startActivity(intent)
+                                            activity?.finish()
+                                        }
+                                    }
                                 }
                             }
                         }
@@ -93,10 +118,14 @@ class FirebaseHelper {
                                         "user_type" to usrType,
                                         "userName" to usr.userName,
                                         "email" to usr.email,
+                                        "realName" to usr.name,
                                         "pictures" to usr.pictures,
                                         "bio" to usr.bio,
                                         "age" to usr.age,
                                         "location" to usr.location,
+                                        "breed" to usr.breed,
+                                        "weight" to usr.weight,
+                                        "activity" to usr.activity,
                                         "matchables" to matchablesList
                                 ))
                                 CoroutineScope(Dispatchers.IO).launch {
@@ -107,7 +136,7 @@ class FirebaseHelper {
                         }
                     } else {
                         val matchType = "dogs"
-                        val usr = Sitter(email,userName)
+                        val usr = User(email,userName)
                         var matchablesList: ArrayList<String> = arrayListOf()
                         runBlocking {
                             firebaseFirestore.collection(matchType).get().addOnSuccessListener {qs ->
@@ -119,6 +148,7 @@ class FirebaseHelper {
                                         "uid" to firebaseUser.uid,
                                         "user_type" to usrType,
                                         "userName" to usr.userName,
+                                        "realName" to usr.name,
                                         "email" to usr.email,
                                         "pictures" to usr.pictures,
                                         "bio" to usr.bio,
@@ -138,6 +168,13 @@ class FirebaseHelper {
                     Toast.makeText(activity,exception.localizedMessage,Toast.LENGTH_LONG).show()
                 }
             return success
+        }
+
+        fun updateLocation(location: Location, usrType: String){
+            firebaseFirestore.collection("${usrType.toLowerCase()}s").document(firebaseUser.uid).update(
+                hashMapOf(
+                    "location" to location
+                ) as Map<String, Any>)
         }
 
         private fun addToMatchables(matchType: String){

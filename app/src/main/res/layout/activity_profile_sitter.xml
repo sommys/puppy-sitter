@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView
+<androidx.constraintlayout.widget.ConstraintLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
@@ -23,7 +23,7 @@
                 android:id="@+id/ivProfilePicture"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-
+                tools:srcCompat="@tools:sample/avatars"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/btnMatch" />
@@ -36,16 +36,15 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/ivProfilePicture"
                 app:srcCompat="@android:drawable/ic_menu_edit" />
-            <TextView
-                app:layout_constraintWidth_default="percent"
-                app:layout_constraintWidth_percent="0.8"
-                android:layout_marginTop="16dp"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/btnEditProfile"
-                android:id="@+id/tvName"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:text="@string/sampleBio"/>
         </androidx.constraintlayout.widget.ConstraintLayout>
-</ScrollView>
+        <ScrollView
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/topLayout">
+            <include android:id="@+id/profileDetails"
+                layout="@layout/profile_details_sitter"/>
+        </ScrollView>
+</androidx.constraintlayout.widget.ConstraintLayout>
