@@ -1,86 +1,106 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".ui.RegisterFragment">
-
-    <ImageView
-        android:id="@+id/ivLogo"
-        android:layout_width="wrap_content"
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_height="wrap_content"
-        android:layout_marginTop="24dp"
-        android:contentDescription="@string/logo"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        android:layout_width="match_parent">
 
-    <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/tilRegisterEmail"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="32dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/ivLogo">
-        <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/itRegisterEmail"
-            android:inputType="textEmailAddress"
+        <ImageView
+            android:id="@+id/ivLogo"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="24dp"
+            android:contentDescription="@string/logo"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/tilRegisterEmail"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="@string/emailHint"/>
-    </com.google.android.material.textfield.TextInputLayout>
+            android:layout_marginTop="32dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/ivLogo">
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/itRegisterEmail"
+                android:inputType="textEmailAddress"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="@string/emailHint"/>
+        </com.google.android.material.textfield.TextInputLayout>
 
-    <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/tilRegisterUsername"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="32dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tilRegisterEmail">
-        <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/itRegisterUsername"
-            android:inputType="text"
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/tilRegisterUsername"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="@string/userNameHint"/>
-    </com.google.android.material.textfield.TextInputLayout>
+            android:layout_marginTop="32dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/tilRegisterEmail">
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/itRegisterUsername"
+                android:inputType="text"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="@string/userNameHint"/>
+        </com.google.android.material.textfield.TextInputLayout>
 
-    <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/tilPassword"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="32dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tilRegisterUsername">
-        <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/itPassword"
-            android:inputType="textPassword"
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/tilRegisterRealName"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="@string/passwordHint"/>
-    </com.google.android.material.textfield.TextInputLayout>
+            android:layout_marginTop="32dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/tilRegisterUsername">
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/itRegisterRealName"
+                android:inputType="text"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="@string/realNameHint"/>
+        </com.google.android.material.textfield.TextInputLayout>
 
-    <Spinner
-        android:id="@+id/spinnerType"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="32dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tilPassword"/>
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/tilPassword"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="32dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/tilRegisterRealName">
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/itPassword"
+                android:inputType="textPassword"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="@string/passwordHint"/>
+        </com.google.android.material.textfield.TextInputLayout>
 
-    <Button
-        android:id="@+id/btnSignUpLogin"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/btnSignUpAndLogIn"
-        android:layout_marginTop="32dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/spinnerType" />
+        <Spinner
+            android:id="@+id/spinnerType"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="32dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/tilPassword"/>
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+        <Button
+            android:id="@+id/btnSignUpLogin"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/btnSignUpAndLogIn"
+            android:layout_marginTop="32dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/spinnerType" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</ScrollView>

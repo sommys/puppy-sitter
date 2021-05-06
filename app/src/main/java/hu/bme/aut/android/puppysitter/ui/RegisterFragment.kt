@@ -33,10 +33,10 @@ class RegisterFragment(): Fragment() {
         }
         binding.btnSignUpLogin.setOnClickListener {
             if(validateRegistration())
-                FirebaseHelper.register(activity, binding.itRegisterEmail.text.toString(), binding.itRegisterUsername.text.toString(), binding.itPassword.text.toString(), binding.spinnerType.selectedItem.toString().toUpperCase())
+                FirebaseHelper.register(activity, binding.itRegisterEmail.text.toString(), binding.itRegisterUsername.text.toString(), binding.itRegisterRealName.text.toString(), binding.itPassword.text.toString(), binding.spinnerType.selectedItem.toString().toUpperCase())
         }
         return binding.root
     }
 
-    private fun validateRegistration() = binding.itRegisterEmail.validateNonEmpty() && binding.itRegisterUsername.validateNonEmpty() && binding.itPassword.validateNonEmpty()
+    private fun validateRegistration() = binding.itRegisterEmail.validateNonEmpty() && binding.itRegisterUsername.validateNonEmpty() && binding.itRegisterRealName.validateNonEmpty() && binding.itPassword.validateNonEmpty()
 }

@@ -15,7 +15,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
             <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/etBio"
+                android:id="@+id/itBio"
                 android:inputType="textMultiLine"
                 android:hint="@string/bioHint"
                 android:layout_width="match_parent"
@@ -52,7 +52,7 @@
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/tilWeight"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/tilAge"
+            app:layout_constraintTop_toBottomOf="@id/tilBreed"
             android:layout_marginTop="16dp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content">

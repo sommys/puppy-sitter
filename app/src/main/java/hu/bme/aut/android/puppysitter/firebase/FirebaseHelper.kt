@@ -37,25 +37,26 @@ class FirebaseHelper {
                     val intent = Intent(activity, ProfileActivity::class.java)
                     var usrType = ""
                     firebaseFirestore.collection("sitters").document(firebaseUser.uid).get().addOnCompleteListener {
-                        if(it.isSuccessful){
-                            var loc = Location("fused")
-                            loc.latitude = (it.result.get("location") as HashMap<String, Any>)["latitude"] as Double
-                            loc.longitude = (it.result.get("location") as HashMap<String, Any>)["longitude"] as Double
+                        if(it.isSuccessful && it.result.contains("email")) {
+//                            var loc = Location("fused")
+//                            loc.latitude = (it.result.get("location") as Location).latitude
+//                            loc.longitude = (it.result.get("location") as Location).longitude
                             val usr = User(email,
-                                firebaseUser.displayName!!,
-                                it.result.get("realName") as String?,
-                                it.result.get("pictures") as ArrayList<String>,
-                                it.result.get("bio") as String?,
-                                it.result.get("age") as Long?,
-                                loc
+                                    firebaseUser.displayName!!,
+                                    it.result.get("realName") as String?,
+                                    it.result.get("pictures") as ArrayList<String>,
+                                    it.result.get("bio") as String?,
+                                    it.result.get("age") as Long?,
+                                    Location("fused")
                             )
                             usrType = it.result?.data?.get("user_type")?.toString() ?: ""
-                            if(usrType != "") {
+                            if (usrType != "") {
                                 intent.putExtra("USER_TYPE", usrType)
                                 intent.putExtra("USER", usr)
                                 activity?.startActivity(intent)
                                 activity?.finish()
-                            } else {
+                            }
+                        } else {
                                 firebaseFirestore.collection("dogs").document(firebaseUser.uid).get().addOnCompleteListener { dogtask ->
                                     if(dogtask.isSuccessful) {
                                         var loc = Location("fused")
@@ -84,14 +85,12 @@ class FirebaseHelper {
                             }
                         }
                     }
-
-                }
                 .addOnFailureListener { exception ->
                     Toast.makeText(activity, exception.localizedMessage, Toast.LENGTH_LONG).show()
                 }
         }
 
-        fun register(activity: FragmentActivity?, email: String, userName: String, password: String, usrType: String): Boolean {
+        fun register(activity: FragmentActivity?, email: String, userName: String, realName: String, password: String, usrType: String): Boolean {
             var success = false
             firebaseAuth
                 .createUserWithEmailAndPassword(email, password)
@@ -118,7 +117,7 @@ class FirebaseHelper {
                                         "user_type" to usrType,
                                         "userName" to usr.userName,
                                         "email" to usr.email,
-                                        "realName" to usr.name,
+                                        "realName" to realName,
                                         "pictures" to usr.pictures,
                                         "bio" to usr.bio,
                                         "age" to usr.age,
@@ -148,7 +147,7 @@ class FirebaseHelper {
                                         "uid" to firebaseUser.uid,
                                         "user_type" to usrType,
                                         "userName" to usr.userName,
-                                        "realName" to usr.name,
+                                        "realName" to realName,
                                         "email" to usr.email,
                                         "pictures" to usr.pictures,
                                         "bio" to usr.bio,
@@ -171,6 +170,9 @@ class FirebaseHelper {
         }
 
         fun updateLocation(location: Location, usrType: String){
+            if(!::firebaseUser.isInitialized){
+                firebaseUser = firebaseAuth.currentUser!!
+            }
             firebaseFirestore.collection("${usrType.toLowerCase()}s").document(firebaseUser.uid).update(
                 hashMapOf(
                     "location" to location

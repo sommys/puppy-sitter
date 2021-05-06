@@ -11,7 +11,10 @@ class Dog(
     var activity: Long? = null
 ): User(email, userName, name, pictures, bio, age, location), Parcelable{
     constructor(): this(null, null, null, arrayListOf(), null, null, null)
-    constructor(email: String, userName: String): this(email, userName,null, arrayListOf(),"",0,Location("fused"),null,0,0)
+    constructor(email: String, userName: String): this(email, userName,null, arrayListOf(),"",0,Location("fused"),null,0,0){
+        location?.latitude = 0.0
+        location?.longitude = 0.0
+    }
 
     override fun writeToParcel(parcel: Parcel, flags: Int) {
         parcel.writeString(email)
@@ -48,7 +51,7 @@ class Dog(
         override fun createFromParcel(parcel: Parcel): Dog {
             val ret = Dog(parcel.readString()?:"", parcel.readString()?:"")
             ret.name = parcel.readString()
-            ret.pictures = parcel.readArrayList(ClassLoader.getSystemClassLoader()) as ArrayList<String>
+            ret.pictures = parcel.createStringArrayList() as ArrayList<String>
             ret.bio = parcel.readString()
             ret.age = parcel.readLong()
             var newLocation = Location("fused")

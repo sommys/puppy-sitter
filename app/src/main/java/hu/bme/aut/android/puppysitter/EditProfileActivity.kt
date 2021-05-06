@@ -1,5 +1,6 @@
 package hu.bme.aut.android.puppysitter
 
+import android.content.Intent
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.graphics.ImageDecoder
@@ -24,6 +25,8 @@ import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.storage.FirebaseStorage
 import com.google.firebase.storage.StorageReference
 import hu.bme.aut.android.puppysitter.databinding.ActivityEditProfileBinding
+import hu.bme.aut.android.puppysitter.model.Dog
+import hu.bme.aut.android.puppysitter.model.User
 import hu.bme.aut.android.puppysitter.ui.EditDetailsFragment
 import hu.bme.aut.android.puppysitter.ui.EditPictureDialogFragment
 import hu.bme.aut.android.puppysitter.ui.UploadPictureFragment
@@ -39,7 +42,7 @@ class EditProfileActivity : AppCompatActivity() {
             val ret: ArrayList<String> = arrayListOf()
             for(i: ImageView in epa.pictureHolders){
                 if(i.contentDescription != "stock"){
-                    ret.add("${epa.pathPrefix}/${i.id}")
+                    ret.add("${epa.pathPrefix}/${i.contentDescription}")
                 } else {
                     break
                 }
@@ -95,22 +98,30 @@ class EditProfileActivity : AppCompatActivity() {
     private lateinit var pictureHolders: ArrayList<ImageView>
     private lateinit var pathPrefix: String
     private lateinit var usrType: String
+    private lateinit var usr: User
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        //TODO get user object from login and set the view items related to the data
-        //TODO add max range for match slider to layout
         binding = ActivityEditProfileBinding.inflate(layoutInflater)
         pathPrefix = "images/${FirebaseAuth.getInstance().currentUser?.uid}"
         setOnImageClickListeners()
-        binding.btnCancel.setOnClickListener {
-            finish()
-        }
         usrType = (intent.extras?.get("USER_TYPE") as String).toLowerCase()
+        binding.btnBack.setOnClickListener {
+            startActivity(Intent(this, ProfileActivity::class.java).putExtra("USER_TYPE", usrType.toUpperCase()).putExtra("USER", usr).addFlags(Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK))
+        }
+        if(usrType == "sitter") {
+            usr = intent.extras?.getParcelable("USER")!!
+        } else {
+            usr = intent.extras?.getParcelable<Dog>("USER")!!
+        }
         setPictureHolders()
         initalizePictures()
         setContentView(binding.root)
-        supportFragmentManager.beginTransaction().add(R.id.editDetailsFragment, EditDetailsFragment(intent.extras?.get("USER_TYPE") as String)).commit()
+        supportFragmentManager.beginTransaction().add(R.id.editDetailsFragment, EditDetailsFragment(intent.extras?.get("USER_TYPE") as String, usr)).commit()
+    }
+
+    override fun onBackPressed() {
+        startActivity(Intent(this, ProfileActivity::class.java).putExtra("USER_TYPE", usrType.toUpperCase()).putExtra("USER", usr).addFlags(Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK))
     }
 
     override fun onDestroy() {

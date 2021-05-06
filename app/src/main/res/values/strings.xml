@@ -38,6 +38,9 @@ Etiam at arcu ac nunc bibendum convallis. Mauris quis congue libero, ut ultricie
     <string name="breedLabel">Breed:</string>
     <string name="weightLabel">Weight:</string>
     <string name="activityLabel">Activity:</string>
+    <string name="realNameHint">Real name...</string>
+    <string name="rangeSliderLabel">Range (in km):</string>
+    <string name="btnBack">Back</string>
     <string-array name="usertype_array">
         <item>Dog</item>
         <item>Sitter</item>

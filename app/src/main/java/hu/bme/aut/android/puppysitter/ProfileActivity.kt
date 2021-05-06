@@ -8,6 +8,7 @@ import android.net.Uri
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.os.IBinder
+import android.util.Log
 import android.widget.Toast
 import com.google.android.gms.tasks.Task
 import com.google.firebase.auth.FirebaseAuth
@@ -47,6 +48,8 @@ class ProfileActivity : AppCompatActivity() {
         usrType = intent.extras?.get("USER_TYPE") as String
         if(usrType == "SITTER"){
             usr = intent.extras?.getParcelable("USER")!!
+            Log.d("USRCHECK", usr.bio.toString())
+            Log.d("USRCHECK", usr.age.toString())
             bindingSitter = ActivityProfileSitterBinding.inflate(layoutInflater)
             FirebaseFirestore.getInstance().collection("sitters")
                 .document(FirebaseAuth.getInstance().currentUser!!.uid).get()
@@ -54,7 +57,7 @@ class ProfileActivity : AppCompatActivity() {
                     loadProfilePicture(it)
                 }
             bindingSitter.btnEditProfile.setOnClickListener {
-                startActivity(Intent(this, EditProfileActivity::class.java).putExtra("USER_TYPE", "SITTER").putExtra("USER", usr))
+                startActivity(Intent(this, EditProfileActivity::class.java).putExtra("USER_TYPE", "SITTER").putExtra("USER", usr).addFlags(Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK))
             }
             bindingSitter.btnMatch.setOnClickListener {
                 startActivity(Intent(this, MatcherActivity::class.java).putExtra("USER_TYPE", "SITTER").putExtra("USER", usr))
@@ -69,7 +72,7 @@ class ProfileActivity : AppCompatActivity() {
                         loadProfilePicture(it)
                     }
             bindingDog.btnEditProfile.setOnClickListener {
-                startActivity(Intent(this, EditProfileActivity::class.java).putExtra("USER_TYPE", "DOG").putExtra("USER", usr))
+                startActivity(Intent(this, EditProfileActivity::class.java).putExtra("USER_TYPE", "DOG").putExtra("USER", usr).addFlags(Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK))
             }
             bindingDog.btnMatch.setOnClickListener {
                 startActivity(Intent(this, MatcherActivity::class.java).putExtra("USER_TYPE", "DOG").putExtra("USER", usr))
