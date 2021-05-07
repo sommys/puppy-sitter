@@ -5,18 +5,18 @@ import android.os.Parcel
 import android.os.Parcelable
 
 class Dog(
-    email:String?, userName: String?, name: String?, pictures: ArrayList<String>, bio: String?, age: Long?, location: Location?,
+    uid: String?, email:String?, userName: String?, name: String?, pictures: ArrayList<String>, bio: String?, age: Long?, range: Long?, location: Location?,
     var breed: String? = null,
     var weight: Long? = null,
     var activity: Long? = null
-): User(email, userName, name, pictures, bio, age, location), Parcelable{
-    constructor(): this(null, null, null, arrayListOf(), null, null, null)
-    constructor(email: String, userName: String): this(email, userName,null, arrayListOf(),"",0,Location("fused"),null,0,0){
+): User(uid, email, userName, name, pictures, bio, age, range, location), Parcelable{
+    constructor(uid: String, email: String, userName: String): this(uid, email, userName,null, arrayListOf(),"",0, 0, Location("fused"),null,0,0){
         location?.latitude = 0.0
         location?.longitude = 0.0
     }
 
     override fun writeToParcel(parcel: Parcel, flags: Int) {
+        parcel.writeString(uid)
         parcel.writeString(email)
         parcel.writeString(userName)
         parcel.writeString(name)
@@ -49,7 +49,7 @@ class Dog(
 
     companion object CREATOR : Parcelable.Creator<User> {
         override fun createFromParcel(parcel: Parcel): Dog {
-            val ret = Dog(parcel.readString()?:"", parcel.readString()?:"")
+            val ret = Dog(parcel.readString()?:"",parcel.readString()?:"", parcel.readString()?:"")
             ret.name = parcel.readString()
             ret.pictures = parcel.createStringArrayList() as ArrayList<String>
             ret.bio = parcel.readString()

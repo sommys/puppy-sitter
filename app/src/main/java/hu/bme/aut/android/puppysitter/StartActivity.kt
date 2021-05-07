@@ -10,6 +10,8 @@ import hu.bme.aut.android.puppysitter.ui.LoginFragment
 
 
 class StartActivity : AppCompatActivity() {
+    //TODO navigation component....
+    //TODO notification
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_start)

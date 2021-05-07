@@ -29,6 +29,3 @@ class LocationHelper(private val context: Context, private val callback: Locatio
         LocationServices.getFusedLocationProviderClient(context).removeLocationUpdates(callback)
     }
 }
-    //TODO add location functionality related things
-    // save to db --> login/logout, matcher activity start
-    // when matcher starts --> get matchables, filter by location

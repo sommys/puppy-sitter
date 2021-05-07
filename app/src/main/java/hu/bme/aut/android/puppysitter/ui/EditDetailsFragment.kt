@@ -38,6 +38,7 @@ class EditDetailsFragment(val userType: String, var usr: User) : Fragment() {
                 usr.pictures = getPicturePaths(activity as EditProfileActivity)
                 usr.age = parseLong(bindingDog.itAge.text.toString())
                 usr.bio = bindingDog.itBio.text.toString()
+                usr.range = bindingDog.rangeSlider.value.toLong()
                 (usr as Dog).weight = parseLong(bindingDog.itWeight.text.toString())
                 (usr as Dog).activity = parseLong(bindingDog.itActivity.text.toString())
                 (usr as Dog).breed = bindingDog.itBreed.text.toString()
@@ -65,6 +66,7 @@ class EditDetailsFragment(val userType: String, var usr: User) : Fragment() {
                 usr.pictures = getPicturePaths(activity as EditProfileActivity)
                 usr.age = parseLong(bindingSitter.itAge.text.toString())
                 usr.bio = bindingSitter.itBio.text.toString()
+                usr.range = bindingSitter.rangeSlider.value.toLong()
                 val userData = hashMapOf(
                         "pictures" to usr.pictures,
                         "bio" to usr.bio,

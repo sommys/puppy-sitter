@@ -49,42 +49,43 @@ class LocationService : Service() {
     }
 
     override fun onDestroy() {
+        FirebaseHelper.updateLocation(location!!, usrType)
         locationHelper?.stopLocationMonitoring()
 
         super.onDestroy()
     }
 
-    private fun createNotification(text: String): Notification {
-        val notificationIntent = Intent(this, StartActivity::class.java)
-        notificationIntent.flags = Intent.FLAG_ACTIVITY_CLEAR_TASK
-
-        createNotificationChannel()
-
-        val contentIntent = PendingIntent.getActivity(this,
-            LOCATION_NOTIFICATION_ID,
-            notificationIntent,
-            PendingIntent.FLAG_CANCEL_CURRENT)
-
-        return NotificationCompat.Builder(this, CHANNEL_ID)
-            .setContentTitle("PuppySitter")
-            .setContentText(text)
-            .setContentIntent(contentIntent)
-            .build()
-    }
-
-    private fun createNotificationChannel() {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            val serviceChannel = NotificationChannel(
-                CHANNEL_ID,
-                "Foreground Service Channel",
-                NotificationManager.IMPORTANCE_DEFAULT
-            )
-            val manager = getSystemService(
-                NotificationManager::class.java
-            )
-            manager.createNotificationChannel(serviceChannel)
-        }
-    }
+//    private fun createNotification(text: String): Notification {
+//        val notificationIntent = Intent(this, StartActivity::class.java)
+//        notificationIntent.flags = Intent.FLAG_ACTIVITY_CLEAR_TASK
+//
+//        createNotificationChannel()
+//
+//        val contentIntent = PendingIntent.getActivity(this,
+//            LOCATION_NOTIFICATION_ID,
+//            notificationIntent,
+//            PendingIntent.FLAG_CANCEL_CURRENT)
+//
+//        return NotificationCompat.Builder(this, CHANNEL_ID)
+//            .setContentTitle("PuppySitter")
+//            .setContentText(text)
+//            .setContentIntent(contentIntent)
+//            .build()
+//    }
+//
+//    private fun createNotificationChannel() {
+//        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+//            val serviceChannel = NotificationChannel(
+//                CHANNEL_ID,
+//                "Foreground Service Channel",
+//                NotificationManager.IMPORTANCE_DEFAULT
+//            )
+//            val manager = getSystemService(
+//                NotificationManager::class.java
+//            )
+//            manager.createNotificationChannel(serviceChannel)
+//        }
+//    }
 
     override fun onBind(intent: Intent): IBinder = locationServiceBinder
 

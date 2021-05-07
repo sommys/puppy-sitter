@@ -38,16 +38,16 @@ class FirebaseHelper {
                     var usrType = ""
                     firebaseFirestore.collection("sitters").document(firebaseUser.uid).get().addOnCompleteListener {
                         if(it.isSuccessful && it.result.contains("email")) {
-//                            var loc = Location("fused")
-//                            loc.latitude = (it.result.get("location") as Location).latitude
-//                            loc.longitude = (it.result.get("location") as Location).longitude
-                            val usr = User(email,
-                                    firebaseUser.displayName!!,
+                            var loc = Location("fused")
+                            loc.latitude = (it.result.get("location") as HashMap<String, Any>)["latitude"] as Double
+                            loc.longitude = (it.result.get("location") as HashMap<String, Any>)["longitude"] as Double
+                            val usr = User(firebaseUser.uid,email, firebaseUser.displayName!!,
                                     it.result.get("realName") as String?,
                                     it.result.get("pictures") as ArrayList<String>,
                                     it.result.get("bio") as String?,
                                     it.result.get("age") as Long?,
-                                    Location("fused")
+                                    it.result.get("range") as Long?,
+                                    loc
                             )
                             usrType = it.result?.data?.get("user_type")?.toString() ?: ""
                             if (usrType != "") {
@@ -62,12 +62,12 @@ class FirebaseHelper {
                                         var loc = Location("fused")
                                         loc.latitude = (dogtask.result.get("location") as HashMap<String, Any>)["latitude"] as Double
                                         loc.longitude = (dogtask.result.get("location") as HashMap<String, Any>)["longitude"] as Double
-                                        val usr = Dog(email,
-                                            firebaseUser.displayName!!,
+                                        val usr = Dog(firebaseUser.uid, email, firebaseUser.displayName!!,
                                             dogtask.result.get("realName") as String?,
                                             dogtask.result.get("pictures") as ArrayList<String>,
                                             dogtask.result.get("bio") as String?,
                                             dogtask.result.get("age") as Long?,
+                                            dogtask.result.get("range") as Long?,
                                             loc,
                                             dogtask.result.get("breed") as String?,
                                             dogtask.result.get("weight") as Long?,
@@ -104,7 +104,7 @@ class FirebaseHelper {
                     Toast.makeText(activity,"Registration successful",Toast.LENGTH_SHORT).show()
                     if(usrType == "DOG"){
                         val matchType = "sitters"
-                        val usr = Dog(email,userName)
+                        val usr = Dog(firebaseUser.uid, email,userName)
                         var matchablesList: ArrayList<String> = arrayListOf()
                         runBlocking {
                             firebaseFirestore.collection(matchType).get().addOnSuccessListener {qs ->
@@ -121,6 +121,7 @@ class FirebaseHelper {
                                         "pictures" to usr.pictures,
                                         "bio" to usr.bio,
                                         "age" to usr.age,
+                                        "range" to 5L,
                                         "location" to usr.location,
                                         "breed" to usr.breed,
                                         "weight" to usr.weight,
@@ -135,7 +136,7 @@ class FirebaseHelper {
                         }
                     } else {
                         val matchType = "dogs"
-                        val usr = User(email,userName)
+                        val usr = User(firebaseUser.uid, email,userName)
                         var matchablesList: ArrayList<String> = arrayListOf()
                         runBlocking {
                             firebaseFirestore.collection(matchType).get().addOnSuccessListener {qs ->
@@ -152,6 +153,7 @@ class FirebaseHelper {
                                         "pictures" to usr.pictures,
                                         "bio" to usr.bio,
                                         "age" to usr.age,
+                                        "range" to 5L,
                                         "location" to usr.location,
                                         "matchables" to matchablesList
                                 ))
