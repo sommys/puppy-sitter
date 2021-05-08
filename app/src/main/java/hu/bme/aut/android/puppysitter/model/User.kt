@@ -24,7 +24,7 @@ open class User(
         parcel.writeStringList(pictures)
         parcel.writeString(bio)
         parcel.writeLong(age?:0L)
-        parcel.writeLong(range?:0L)
+        parcel.writeLong(range?:5L)
         if(location == null){
             parcel.writeDouble(0.0)
             parcel.writeDouble(0.0)

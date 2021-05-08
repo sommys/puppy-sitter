@@ -2,6 +2,7 @@ package hu.bme.aut.android.puppysitter.ui
 
 import android.location.Location
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -31,6 +32,7 @@ class EditDetailsFragment(val userType: String, var usr: User) : Fragment() {
             bindingDog.itWeight.setText((usr as Dog).weight.toString())
             bindingDog.itActivity.setText((usr as Dog).activity.toString())
             bindingDog.itBreed.setText((usr as Dog).breed)
+            bindingDog.rangeSlider.value = usr.range?.toFloat() ?: 5F
 
             bindingDog.btnSubmit.setOnClickListener {
                 val currentUser = FirebaseAuth.getInstance().currentUser
@@ -48,7 +50,8 @@ class EditDetailsFragment(val userType: String, var usr: User) : Fragment() {
                         "age" to usr.age,
                         "weight" to (usr as Dog).weight,
                         "activity" to (usr as Dog).activity,
-                        "breed" to (usr as Dog).breed
+                        "breed" to (usr as Dog).breed,
+                        "range" to usr.range
                 )
                 firebaseDB.collection("dogs").document(currentUser!!.uid).update(userData as Map<String, Any>).addOnSuccessListener {
                     Toast.makeText(activity, "Changes saved!", Toast.LENGTH_SHORT).show()
@@ -59,6 +62,7 @@ class EditDetailsFragment(val userType: String, var usr: User) : Fragment() {
             bindingSitter = FragmentEditDetailsSitterBinding.inflate(layoutInflater)
             bindingSitter.itAge.setText(usr.age.toString())
             bindingSitter.itBio.setText(usr.bio)
+            bindingSitter.rangeSlider.value = usr.range?.toFloat() ?: 5F
 
             bindingSitter.btnSubmit.setOnClickListener {
                 val currentUser = FirebaseAuth.getInstance().currentUser
@@ -70,7 +74,8 @@ class EditDetailsFragment(val userType: String, var usr: User) : Fragment() {
                 val userData = hashMapOf(
                         "pictures" to usr.pictures,
                         "bio" to usr.bio,
-                        "age" to usr.age
+                        "age" to usr.age,
+                        "range" to usr.range
                 )
                 firebaseDB.collection("sitters").document(currentUser!!.uid).update(userData as Map<String, Any>).addOnSuccessListener {
                     Toast.makeText(activity, "Changes saved!", Toast.LENGTH_SHORT).show()

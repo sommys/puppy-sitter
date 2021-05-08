@@ -13,14 +13,17 @@ import android.widget.Toast
 import com.google.android.gms.tasks.Task
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.DocumentSnapshot
+import com.google.firebase.firestore.FieldValue
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.storage.FirebaseStorage
 import hu.bme.aut.android.puppysitter.databinding.ActivityProfileDogBinding
 import hu.bme.aut.android.puppysitter.databinding.ActivityProfileSitterBinding
 import hu.bme.aut.android.puppysitter.model.Dog
 import hu.bme.aut.android.puppysitter.model.User
+import hu.bme.aut.android.puppysitter.notification.NotificationHelper
 import hu.bme.aut.android.puppysitter.service.LocationService
 import kotlinx.coroutines.*
+import kotlinx.coroutines.tasks.await
 import permissions.dispatcher.NeedsPermission
 import permissions.dispatcher.RuntimePermissions
 import java.net.URL
@@ -32,6 +35,8 @@ class ProfileActivity : AppCompatActivity() {
     private lateinit var bindingSitter: ActivityProfileSitterBinding
     private lateinit var usrType: String
     private lateinit var usr: User
+    private lateinit var notiHelper: NotificationHelper
+    private val firestore = FirebaseFirestore.getInstance()
     private val storageRef = FirebaseStorage.getInstance().reference
     private var locationServiceBinder: LocationService.ServiceLocationBinder? = null
     private val serviceConnection = object : ServiceConnection {
@@ -45,6 +50,7 @@ class ProfileActivity : AppCompatActivity() {
     }
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        notiHelper = NotificationHelper(applicationContext)
         usrType = intent.extras?.get("USER_TYPE") as String
         if(usrType == "SITTER"){
             usr = intent.extras?.getParcelable("USER")!!
@@ -127,6 +133,8 @@ class ProfileActivity : AppCompatActivity() {
     private fun loadProfilePicture(it: Task<DocumentSnapshot>){
         if (it.isSuccessful) {
             val picturePaths = it.result?.get("pictures") as ArrayList<String>
+            val matches = it.result?.get("match") as ArrayList<String>
+            GlobalScope.launch { getMatchNotifications(matches) }
             if(picturePaths.size>0) {
                 storageRef.child(picturePaths[0]).downloadUrl.addOnSuccessListener { uri ->
                     CoroutineScope(Dispatchers.IO).launch {
@@ -162,6 +170,15 @@ class ProfileActivity : AppCompatActivity() {
             Toast.makeText(this, "Something went wrong!", Toast.LENGTH_LONG).show()
             FirebaseAuth.getInstance().signOut()
             finish()
+        }
+    }
+
+    private suspend fun getMatchNotifications(matches: ArrayList<String>) {
+        for(uid: String in matches){
+            val match = firestore.collection(if(usrType == "SITTER") "dogs" else "sitters").document(uid).get().await()
+            firestore.collection(if(usrType == "SITTER") "sitters" else "dogs").document(usr.uid!!).update("match", FieldValue.arrayRemove(uid))
+            val matchUser = User(uid, match["email"] as String, match["userName"] as String)
+            notiHelper.showMatchNotification(matchUser)
         }
     }
 

@@ -4,6 +4,7 @@ import android.content.Intent
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.location.Location
+import android.util.Log
 import android.widget.Toast
 import androidx.fragment.app.FragmentActivity
 import com.google.firebase.auth.FirebaseAuth
@@ -205,7 +206,7 @@ class FirebaseHelper {
                     "pictures" to pictures
             ) as Map<String, Any>)
             val baos = ByteArrayOutputStream()
-            BitmapFactory.decodeStream(activity.resources.openRawResource(R.raw.app_logo)).compress(Bitmap.CompressFormat.JPEG, 100, baos)
+            BitmapFactory.decodeStream(activity.resources.openRawResource(R.raw.app_logo)).compress(Bitmap.CompressFormat.PNG, 100, baos)
             val data = baos.toByteArray()
             var uploadTask = firebaseUserStorage.child("default_pic").putBytes(data)
             uploadTask.addOnSuccessListener{

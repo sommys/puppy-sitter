@@ -23,6 +23,7 @@ class Dog(
         parcel.writeStringList(pictures)
         parcel.writeString(bio)
         parcel.writeLong(age?:0L)
+        parcel.writeLong(range?:5L)
         if(location == null){
             parcel.writeDouble(0.0)
             parcel.writeDouble(0.0)
@@ -54,6 +55,7 @@ class Dog(
             ret.pictures = parcel.createStringArrayList() as ArrayList<String>
             ret.bio = parcel.readString()
             ret.age = parcel.readLong()
+            ret.range = parcel.readLong()
             var newLocation = Location("fused")
             newLocation.latitude = parcel.readDouble()
             newLocation.longitude = parcel.readDouble()
