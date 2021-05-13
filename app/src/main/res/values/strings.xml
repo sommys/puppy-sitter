@@ -1,0 +1,49 @@
+<resources>
+    <string name="app_name">Puppy Sitter</string>
+    <string name="logo">appLogo</string>
+    <string name="userNameHint">Username...</string>
+    <string name="passwordHint">Password...</string>
+    <string name="btnLogin">LOGIN</string>
+    <string name="emailHint">E-Mail...</string>
+    <string name="btnSignUp">SIGN UP</string>
+    <string name="btnSignUpAndLogIn"><![CDATA[SIGN UP & LOGIN]]></string>
+    <string name="btnMatchSit">SITTING</string>
+    <string name="btnMatchPlay">PLAYING</string>
+    <string name="sampleBio">Vestibulum congue pretium quam id bibendum. Proin vitae felis quis elit hendrerit ornare. Morbi faucibus fermentum aliquet. Nullam sollicitudin dolor vulputate ex posuere dignissim. Nunc at imperdiet sapien. Phasellus ullamcorper nulla vitae lectus vestibulum, quis suscipit quam facilisis. Cras lectus ipsum, pretium vitae lobortis et, vehicula sed sapien. Integer viverra erat eget egestas efficitur. Integer non ligula id quam tempus viverra consequat feugiat diam. Nunc feugiat lectus viverra massa congue, sit amet vestibulum nisi gravida. Integer venenatis auctor vestibulum. Duis laoreet porttitor aliquet.
+
+Donec vehicula vitae tortor sed fermentum. Sed non condimentum nisl. Curabitur sit amet condimentum ligula. Vivamus nec semper neque, nec vehicula dolor. Pellentesque eleifend, massa lobortis vestibulum rutrum, libero lorem vulputate turpis, eu tincidunt nisi libero eu erat. Donec vestibulum urna quis tellus finibus porttitor ut nec est. Aliquam tincidunt placerat eleifend. Nulla vehicula auctor ipsum sed eleifend. Donec ut vulputate massa. Aenean laoreet ultricies velit. Etiam placerat velit ac tortor gravida, ac tincidunt ante dapibus. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos. Vestibulum in eros vestibulum, placerat ex quis, aliquam mauris.
+
+Aliquam in imperdiet ipsum, vitae posuere ligula. Etiam et metus aliquam, vehicula turpis ut, vestibulum massa. Duis imperdiet quis ligula eget accumsan. Pellentesque sodales nulla ut erat placerat, nec maximus risus feugiat. Sed volutpat justo id leo aliquet, non varius sapien varius. Vestibulum viverra accumsan sagittis. Sed sollicitudin elit non lectus scelerisque, ac dignissim sapien suscipit.
+
+Etiam at arcu ac nunc bibendum convallis. Mauris quis congue libero, ut ultricies sapien. In eget consequat est. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Mauris eget euismod sapien, eget pretium dui. Suspendisse gravida scelerisque tellus sed dapibus. Fusce blandit nulla dui, in lacinia libero mollis sed. Maecenas placerat pretium mi vel viverra. Mauris eget arcu erat. Proin ac bibendum enim. Ut ultricies tortor in nunc porttitor viverra. Maecenas tincidunt neque sit amet turpis scelerisque sollicitudin. Curabitur ornare eleifend dui, vitae malesuada risus elementum non.</string>
+    <string name="bioHint">Bio...</string>
+    <string name="btnCancel">CANCEL</string>
+    <string name="editPictureDialogMessage">What do you want to do with the picture?</string>
+    <string name="btnDelete">Delete</string>
+    <string name="btnEdit">Edit</string>
+    <string name="stock_image">stock</string>
+    <string name="uploadPictureDialogMessage">Please choose an action for adding picture!</string>
+    <string name="btnCamera">Take Photo</string>
+    <string name="btnGallery">Gallery</string>
+    <string name="btnSubmit">SAVE CHANGES</string>
+    <string name="ageHint">Age...</string>
+    <string name="workHint">Workplace...</string>
+    <string name="activityHint">Activity needed in a day (hours)...</string>
+    <string name="weightHint">Weight...</string>
+    <string name="breedHint">Breed...</string>
+    <string name="usernameLabel">Username:</string>
+    <string name="realNameLabel">Real name:</string>
+    <string name="ageLabel">Age:</string>
+    <string name="bioLabel">Bio</string>
+    <string name="breedLabel">Breed:</string>
+    <string name="weightLabel">Weight:</string>
+    <string name="activityLabel">Activity:</string>
+    <string name="realNameHint">Real name...</string>
+    <string name="rangeSliderLabel">Range (in km):</string>
+    <string name="btnBack">Back</string>
+    <string name="noMoreMatch">"No more users in your area!\nWait for more users to register or increase your range!"</string>
+    <string-array name="usertype_array">
+        <item>Dog</item>
+        <item>Sitter</item>
+    </string-array>
+</resources>

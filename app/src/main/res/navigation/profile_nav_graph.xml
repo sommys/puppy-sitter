@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/profile_nav_graph"
+    app:startDestination="@id/loadingProfileFragment">
+
+    <fragment
+        android:id="@+id/profileDogFragment"
+        android:name="hu.bme.aut.android.puppysitter.fragment.ProfileDogFragment"
+        android:label="fragment_profile_dog"
+        tools:layout="@layout/fragment_profile_dog" >
+        <argument
+            android:name="usr"
+            app:argType="hu.bme.aut.android.puppysitter.model.Dog" />
+        <argument android:name="profilePicture"
+            app:argType="android.graphics.Bitmap" />
+        <argument
+            android:name="awayMatches"
+            app:argType="hu.bme.aut.android.puppysitter.model.User[]" />
+        <action
+            android:id="@+id/action_profileDogFragment_to_editDogFragment2"
+            app:destination="@id/editDogFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/profileSitterFragment"
+        android:name="hu.bme.aut.android.puppysitter.fragment.ProfileSitterFragment"
+        android:label="fragment_profile_sitter"
+        tools:layout="@layout/fragment_profile_sitter" >
+        <argument
+            android:name="usr"
+            app:argType="hu.bme.aut.android.puppysitter.model.User" />
+        <argument android:name="profilePicture"
+            app:argType="android.graphics.Bitmap" />
+        <argument
+            android:name="awayMatches"
+            app:argType="hu.bme.aut.android.puppysitter.model.User[]" />
+        <action
+            android:id="@+id/action_profileSitterFragment_to_editSitterFragment2"
+            app:destination="@id/editSitterFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/loadingProfileFragment"
+        android:name="hu.bme.aut.android.puppysitter.fragment.LoadingProfileFragment"
+        android:label="loadingProfileFragment"
+        tools:layout="@layout/fragment_loading" >
+        <action
+            android:id="@+id/action_loadingProfileFragment_to_profileDogFragment"
+            app:destination="@id/profileDogFragment" />
+        <action
+            android:id="@+id/action_loadingProfileFragment_to_profileSitterFragment"
+            app:destination="@id/profileSitterFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/editSitterFragment"
+        android:name="hu.bme.aut.android.puppysitter.fragment.EditSitterFragment"
+        android:label="fragment_edit_sitter"
+        tools:layout="@layout/fragment_edit_sitter" >
+        <argument
+            android:name="usr"
+            app:argType="hu.bme.aut.android.puppysitter.model.User" />
+        <action
+            android:id="@+id/action_editSitterFragment_to_loadingProfileFragment"
+            app:destination="@id/loadingProfileFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/editDogFragment"
+        android:name="hu.bme.aut.android.puppysitter.fragment.EditDogFragment"
+        android:label="fragment_edit_dog"
+        tools:layout="@layout/fragment_edit_dog" >
+        <argument
+            android:name="usr"
+            app:argType="hu.bme.aut.android.puppysitter.model.Dog" />
+        <action
+            android:id="@+id/action_editDogFragment_to_loadingProfileFragment"
+            app:destination="@id/loadingProfileFragment" />
+    </fragment>
+</navigation>

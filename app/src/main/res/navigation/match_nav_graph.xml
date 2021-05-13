@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/match_nav_graph"
+    app:startDestination="@id/loadingMatcherFragment">
+
+    <fragment
+        android:id="@+id/loadingMatcherFragment"
+        android:name="hu.bme.aut.android.puppysitter.fragment.LoadingMatcherFragment"
+        android:label="fragmentLoadingMatcher"
+        tools:layout="@layout/fragment_loading">
+        <action
+            android:id="@+id/action_loadingFragment2_to_matchDogFragment"
+            app:destination="@id/matchDogFragment" />
+        <action
+            android:id="@+id/action_loadingFragment2_to_matchSitterFragment"
+            app:destination="@id/matchSitterFragment" />
+        <action
+            android:id="@+id/action_loadingFragment2_to_emptyMatchablesFragment"
+            app:destination="@id/emptyMatchablesFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/matchDogFragment"
+        android:name="hu.bme.aut.android.puppysitter.fragment.MatchDogFragment"
+        android:label="fragment_match_dog"
+        tools:layout="@layout/fragment_match_dog" >
+        <argument
+            android:name="match"
+            app:argType="hu.bme.aut.android.puppysitter.model.User[]" />
+        <argument
+            android:name="usr"
+            app:argType="hu.bme.aut.android.puppysitter.model.Dog" />
+        <action
+            android:id="@+id/action_matchDogFragment_to_emptyMatchablesFragment"
+            app:destination="@id/emptyMatchablesFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/matchSitterFragment"
+        android:name="hu.bme.aut.android.puppysitter.fragment.MatchSitterFragment"
+        android:label="fragment_match_sitter"
+        tools:layout="@layout/fragment_match_sitter" >
+        <argument
+            android:name="match"
+            app:argType="hu.bme.aut.android.puppysitter.model.Dog[]" />
+        <argument
+            android:name="usr"
+            app:argType="hu.bme.aut.android.puppysitter.model.User" />
+        <action
+            android:id="@+id/action_matchSitterFragment_to_emptyMatchablesFragment"
+            app:destination="@id/emptyMatchablesFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/emptyMatchablesFragment"
+        android:name="hu.bme.aut.android.puppysitter.fragment.EmptyMatchablesFragment"
+        android:label="EmptyMatchablesFragment"
+        tools:layout="@layout/fragment_empty_matchables"/>
+</navigation>
