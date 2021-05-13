@@ -78,13 +78,38 @@ class MatchSitterFragment(): Fragment() {
     private suspend fun showNextMatch(currentMatch: Dog) {
         GlobalScope.launch { downloadPictures(currentMatch) }
         activity?.runOnUiThread {
-            binding.profileDetails.tvAge.text = currentMatch.age.toString()
             binding.profileDetails.tvUsername.text = currentMatch.userName
             binding.profileDetails.tvRealName.text = currentMatch.name
-            binding.profileDetails.tvBio.text = currentMatch.bio.toString()
-            binding.profileDetails.tvActivity.text = currentMatch.activity.toString()
-            binding.profileDetails.tvBreed.text = currentMatch.breed.toString()
-            binding.profileDetails.tvWeight.text = currentMatch.weight.toString()
+            if(currentMatch.age ?: 0L != 0L){
+                binding.profileDetails.tvAge.text = currentMatch.age.toString()
+            } else {
+                binding.profileDetails.tvAge.visibility = View.INVISIBLE
+                binding.profileDetails.tvAgeLabel.visibility = View.INVISIBLE
+            }
+            if(currentMatch.bio ?: "" != ""){
+                binding.profileDetails.tvBio.text = currentMatch.bio.toString()
+            } else {
+                binding.profileDetails.tvBio.visibility = View.INVISIBLE
+                binding.profileDetails.tvBioLabel.visibility = View.INVISIBLE
+            }
+            if(currentMatch.activity ?: 0L != 0L){
+                binding.profileDetails.tvActivity.text = currentMatch.activity.toString()
+            } else {
+                binding.profileDetails.tvActivity.visibility = View.INVISIBLE
+                binding.profileDetails.tvActivityLabel.visibility = View.INVISIBLE
+            }
+            if(currentMatch.breed ?: "" != ""){
+                binding.profileDetails.tvBreed.text =  currentMatch.breed
+            } else {
+                binding.profileDetails.tvBreed.visibility = View.INVISIBLE
+                binding.profileDetails.tvBreedLabel.visibility = View.INVISIBLE
+            }
+            if(currentMatch.weight ?: 0L != 0L){
+                binding.profileDetails.tvWeight.text = currentMatch.weight.toString()
+            } else {
+                binding.profileDetails.tvWeight.visibility = View.INVISIBLE
+                binding.profileDetails.tvWeightLabel.visibility = View.INVISIBLE
+            }
         }
     }
 

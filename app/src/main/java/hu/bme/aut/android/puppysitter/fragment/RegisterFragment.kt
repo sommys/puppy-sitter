@@ -20,7 +20,7 @@ class RegisterFragment(): Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         binding = FragmentRegisterBinding.inflate(layoutInflater)
-        binding.ivLogo.setImageBitmap(BitmapFactory.decodeStream(resources.openRawResource(R.raw.nyonya)))
+        binding.ivLogo.setImageBitmap(BitmapFactory.decodeStream(resources.openRawResource(R.raw.app_logo)))
         ArrayAdapter.createFromResource(
             requireContext(),
             R.array.usertype_array,

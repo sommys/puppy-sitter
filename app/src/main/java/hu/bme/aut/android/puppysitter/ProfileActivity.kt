@@ -35,7 +35,7 @@ class ProfileActivity : AppCompatActivity() {
         usr = intent.extras?.get("USER") as User
         setContentView(R.layout.activity_profile)
         onBackPressedDispatcher.addCallback(this){
-            startActivity(Intent(this@ProfileActivity, MainActivity::class.java))
+            startActivity(Intent(this@ProfileActivity, MainActivity::class.java).putExtra("USER_TYPE", usrType).putExtra("USER", usr))
             finish()
         }
     }
@@ -49,8 +49,8 @@ class ProfileActivity : AppCompatActivity() {
     @NeedsPermission(Manifest.permission.ACCESS_COARSE_LOCATION, Manifest.permission.ACCESS_FINE_LOCATION)
     fun startLocationService() {
         val intent = Intent(this, LocationService::class.java)
-        intent.putExtra("USER_TYPE", intent.extras?.get("USER_TYPE") as String)
-        intent.putExtra("USER", intent.extras?.get("USER") as User)
+        intent.putExtra("USER_TYPE", usrType)
+        intent.putExtra("USER", usr)
         bindService(intent, serviceConnection, Context.BIND_AUTO_CREATE)
         startService(intent)
     }

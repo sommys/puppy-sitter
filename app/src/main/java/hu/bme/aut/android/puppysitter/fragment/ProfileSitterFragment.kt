@@ -32,11 +32,24 @@ class ProfileSitterFragment: Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         navController = Navigation.findNavController(view)
+
         binding.ivProfilePicture.setImageBitmap(args.profilePicture)
-        binding.profileDetails.tvAge.text = args.usr.age.toString()
         binding.profileDetails.tvUsername.text = args.usr.userName
         binding.profileDetails.tvRealName.text = args.usr.name
-        binding.profileDetails.tvBio.text = args.usr.bio.toString()
+
+        if(args.usr.age ?: 0L != 0L){
+            binding.profileDetails.tvAge.text = args.usr.age.toString()
+        } else {
+            binding.profileDetails.tvAge.visibility = View.INVISIBLE
+            binding.profileDetails.tvAgeLabel.visibility = View.INVISIBLE
+        }
+        if(args.usr.bio ?: "" != ""){
+            binding.profileDetails.tvBio.text = args.usr.bio.toString()
+        } else {
+            binding.profileDetails.tvBio.visibility = View.INVISIBLE
+            binding.profileDetails.tvBioLabel.visibility = View.INVISIBLE
+        }
+
         binding.btnMatch.setOnClickListener {
             val intent = Intent(activity, MatcherActivity::class.java).putExtra("USER_TYPE", activity?.intent?.extras?.get("USER_TYPE") as String).putExtra("USER", activity?.intent?.extras?.get("USER") as User)
             activity?.startActivity(intent)

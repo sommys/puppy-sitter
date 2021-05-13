@@ -27,7 +27,7 @@ class NotificationHelper(val context: Context) {
             PendingIntent.getActivity(context, 0, emailIntent, 0)
         createNotificationChannel()
         val noti = NotificationCompat.Builder(context, CHANNEL_ID)
-            .setSmallIcon(R.drawable.arrow_down_thick)
+            .setSmallIcon(R.mipmap.app_logo_round)
             .setContentTitle("It's a MATCH!")
             .setContentText("You'vel matched with ${m.userName}")
             .setContentIntent(emailPendingIntent)

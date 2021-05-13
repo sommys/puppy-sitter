@@ -19,7 +19,7 @@ import hu.bme.aut.android.puppysitter.R
 import hu.bme.aut.android.puppysitter.databinding.FragmentEditDogBinding
 import hu.bme.aut.android.puppysitter.helper.FirebaseHelper.Companion.initializePictures
 import hu.bme.aut.android.puppysitter.helper.FirebaseHelper.Companion.saveChanges
-import hu.bme.aut.android.puppysitter.helper.FirebaseHelper.Companion.savePictures
+//import hu.bme.aut.android.puppysitter.helper.FirebaseHelper.Companion.savePictures
 import kotlinx.coroutines.*
 import java.lang.Long
 
@@ -63,8 +63,8 @@ class EditDogFragment: Fragment() {
         binding.editDetailsDog.btnSubmit.setOnClickListener {
             modifyUserData()
             GlobalScope.launch {
-                savePictures(pictureHolders, "dogs", args.usr)
-                args.usr.pictures = getPicturePaths()
+//                savePictures(pictureHolders, "dogs", args.usr)
+//                args.usr.pictures = getPicturePaths()
                 saveChanges("dogs", args.usr)
                 withContext(Dispatchers.Main){
                     Toast.makeText(this@EditDogFragment.activity, "Changes saved!", Toast.LENGTH_SHORT).show()
@@ -74,8 +74,8 @@ class EditDogFragment: Fragment() {
         binding.btnBack.setOnClickListener {
             modifyUserData()
             GlobalScope.launch {
-                savePictures(pictureHolders, "dogs", args.usr)
-                args.usr.pictures = getPicturePaths()
+//                savePictures(pictureHolders, "dogs", args.usr)
+//                args.usr.pictures = getPicturePaths()
                 saveChanges("dogs", args.usr)
                 withContext(Dispatchers.Main){
                     Toast.makeText(this@EditDogFragment.activity, "Changes saved!", Toast.LENGTH_SHORT).show()
@@ -85,6 +85,8 @@ class EditDogFragment: Fragment() {
             navController.navigate(action)
         }
     }
+
+    private fun isLast(it: ImageView): Boolean = it.id == R.id.img1 && binding.picturesLayout.img2.contentDescription == "stock"
 
     private fun setOnImageClickListeners() {
         binding.picturesLayout.img1.setOnClickListener { onImageClick(it as ImageView) }
@@ -100,9 +102,9 @@ class EditDogFragment: Fragment() {
 
     private fun onImageClick(it: ImageView) {
         if(it.contentDescription == "stock"){
-            UploadPictureDialogFragment(getFirstEmptyImageView()!!).show(parentFragmentManager, "")
+            UploadPictureDialogFragment(this, getFirstEmptyImageView()!!, false, args.usr, "dogs").show(parentFragmentManager, "")
         } else {
-            EditPictureDialogFragment(it, this, "dogs").show(parentFragmentManager, "")
+            EditPictureDialogFragment(it, this, args.usr,"dogs", isLast(it)).show(parentFragmentManager, "")
         }
     }
 
@@ -121,7 +123,7 @@ class EditDogFragment: Fragment() {
             pictureHolders[i].contentDescription = pictureHolders[i].id.toString()
             i++
         }
-        GlobalScope.launch{savePictures(pictureHolders,"dogs", args.usr)}
+//        GlobalScope.launch{savePictures(pictureHolders,"dogs", args.usr)}
     }
 
     fun setPictureHolders() {

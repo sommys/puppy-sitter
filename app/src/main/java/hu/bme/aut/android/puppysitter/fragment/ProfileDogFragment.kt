@@ -34,13 +34,39 @@ class ProfileDogFragment() : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         navController = Navigation.findNavController(view)
         binding.ivProfilePicture.setImageBitmap(args.profilePicture)
-        binding.profileDetails.tvAge.text = args.usr.age.toString()
         binding.profileDetails.tvUsername.text = args.usr.userName
         binding.profileDetails.tvRealName.text = args.usr.name
-        binding.profileDetails.tvBio.text = args.usr.bio.toString()
-        binding.profileDetails.tvActivity.text = args.usr.activity.toString()
-        binding.profileDetails.tvBreed.text =  args.usr.breed.toString()
-        binding.profileDetails.tvWeight.text = args.usr.weight.toString()
+        if(args.usr.age ?: 0L != 0L){
+            binding.profileDetails.tvAge.text = args.usr.age.toString()
+        } else {
+            binding.profileDetails.tvAge.visibility = View.INVISIBLE
+            binding.profileDetails.tvAgeLabel.visibility = View.INVISIBLE
+        }
+        if(args.usr.bio ?: "" != ""){
+            binding.profileDetails.tvBio.text = args.usr.bio.toString()
+        } else {
+            binding.profileDetails.tvBio.visibility = View.INVISIBLE
+            binding.profileDetails.tvBioLabel.visibility = View.INVISIBLE
+        }
+        if(args.usr.activity ?: 0L != 0L){
+            binding.profileDetails.tvActivity.text = args.usr.activity.toString()
+        } else {
+            binding.profileDetails.tvActivity.visibility = View.INVISIBLE
+            binding.profileDetails.tvActivityLabel.visibility = View.INVISIBLE
+        }
+        if(args.usr.breed ?: "" != ""){
+            binding.profileDetails.tvBreed.text =  args.usr.breed
+        } else {
+            binding.profileDetails.tvBreed.visibility = View.INVISIBLE
+            binding.profileDetails.tvBreedLabel.visibility = View.INVISIBLE
+        }
+        if(args.usr.weight ?: 0L != 0L){
+            binding.profileDetails.tvWeight.text = args.usr.weight.toString()
+        } else {
+            binding.profileDetails.tvWeight.visibility = View.INVISIBLE
+            binding.profileDetails.tvWeightLabel.visibility = View.INVISIBLE
+        }
+
         binding.btnMatch.setOnClickListener {
             val intent = Intent(activity, MatcherActivity::class.java).putExtra(
                 "USER_TYPE", activity?.intent?.extras?.get(

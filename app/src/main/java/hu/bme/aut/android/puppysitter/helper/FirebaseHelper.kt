@@ -5,6 +5,7 @@ import android.content.res.Resources
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.location.Location
+import android.net.Uri
 import android.widget.ImageView
 import android.widget.Toast
 import androidx.core.graphics.drawable.toBitmap
@@ -23,6 +24,7 @@ import hu.bme.aut.android.puppysitter.ProfileActivity
 import hu.bme.aut.android.puppysitter.R
 import hu.bme.aut.android.puppysitter.fragment.EditDogFragment
 import hu.bme.aut.android.puppysitter.fragment.EditSitterFragment
+import hu.bme.aut.android.puppysitter.fragment.UploadPictureDialogFragment
 import hu.bme.aut.android.puppysitter.model.Dog
 import hu.bme.aut.android.puppysitter.model.User
 import kotlinx.coroutines.*
@@ -233,11 +235,11 @@ class FirebaseHelper {
             }.addOnFailureListener{}
         }
 
-        suspend fun deletePicture(usrType: String, iv: ImageView, resources: Resources, fragment: Fragment){
+        suspend fun deletePicture(usr: User, usrType: String, iv: ImageView, resources: Resources, fragment: Fragment){
             try {
-                firebaseStorageRef.child("images/${firebaseUser.uid}/${iv.contentDescription}").delete().await()
+                firebaseStorageRef.child("images/${usr.uid}/${iv.contentDescription}").delete().await()
             } catch (e: StorageException){}
-            firebaseFirestore.collection(usrType).document(firebaseUser.uid).update("pictures", FieldValue.arrayRemove("images/${firebaseUser.uid}/${iv.contentDescription}")).await()
+            firebaseFirestore.collection(usrType).document(usr.uid!!).update("pictures", FieldValue.arrayRemove("images/${usr.uid}/${iv.contentDescription}")).await()
             withContext(Dispatchers.Main){
                 iv.contentDescription = "stock"
                 iv.setImageBitmap(BitmapFactory.decodeResource(resources, R.drawable.ic_plus_circle_black_48dp))
@@ -248,6 +250,57 @@ class FirebaseHelper {
                 }
             }
         }
+
+        suspend fun editPicture(usr: User, usrType: String, iv: ImageView, newImageUri: Uri){
+            try {
+                firebaseStorageRef.child("images/${usr.uid}/${iv.contentDescription}").delete().await()
+                firebaseStorageRef.child("images/${usr.uid}/${newImageUri.toString().substring(newImageUri.toString().lastIndexOf("/")+1)}").putFile(newImageUri).await()
+                val idx = usr.pictures.indexOf("images/${usr.uid}/${iv.contentDescription}")
+                usr.pictures[idx] = "images/${usr.uid}/${newImageUri.toString().substring(newImageUri.toString().lastIndexOf("/")+1)}"
+                firebaseFirestore.collection(usrType).document(usr.uid!!).update("pictures", usr.pictures).await()
+            } catch (e: StorageException){}
+        }
+
+        suspend fun uploadPicture(usr: User, usrType: String, iv: ImageView, newImageUri: Uri){
+            try {
+                firebaseStorageRef.child("images/${usr.uid}/${newImageUri.toString().substring(newImageUri.toString().lastIndexOf("/")+1)}").putFile(newImageUri).await()
+                usr.pictures.add("images/${usr.uid}/${newImageUri.toString().substring(newImageUri.toString().lastIndexOf("/")+1)}")
+                firebaseFirestore.collection(usrType).document(usr.uid!!).update("pictures", FieldValue.arrayUnion("images/${usr.uid}/${newImageUri.toString().substring(newImageUri.toString().lastIndexOf("/")+1)}")).await()
+            } catch (e: StorageException){}
+        }
+
+        suspend fun editPictureCamera(usr: User, usrType: String, iv: ImageView, img: Bitmap) {
+            try {
+                val baos = ByteArrayOutputStream()
+                img.compress(Bitmap.CompressFormat.JPEG, 100, baos)
+                val data = baos.toByteArray()
+                firebaseStorageRef.child("images/${usr.uid}/${iv.contentDescription}").delete().await()
+                firebaseStorageRef.child("images/${usr.uid}/${img.hashCode()}").putBytes(data).await()
+                val idx = usr.pictures.indexOf("images/${usr.uid}/${iv.contentDescription}")
+                usr.pictures[idx] = "images/${usr.uid}/${img.hashCode()}"
+                firebaseFirestore.collection(usrType).document(usr.uid!!).update("pictures", usr.pictures).await()
+            } catch (e: StorageException){}
+            withContext(Dispatchers.Main){
+                iv.contentDescription = img.hashCode().toString()
+                iv.setImageBitmap(img)
+            }
+        }
+
+        suspend fun uploadPictureCamera(usr: User, usrType: String, iv: ImageView, img: Bitmap) {
+            try {
+                val baos = ByteArrayOutputStream()
+                img.compress(Bitmap.CompressFormat.JPEG, 100, baos)
+                val data = baos.toByteArray()
+                firebaseStorageRef.child("images/${usr.uid}/${img.hashCode()}").putBytes(data).await()
+                usr.pictures.add("images/${usr.uid}/${img.hashCode()}")
+                firebaseFirestore.collection(usrType).document(usr.uid!!).update("pictures", FieldValue.arrayUnion("images/${usr.uid}/${img.hashCode()}")).await()
+            } catch (e: StorageException){}
+            withContext(Dispatchers.Main){
+                iv.contentDescription = img.hashCode().toString()
+                iv.setImageBitmap(img)
+            }
+        }
+
 
         suspend fun initializePictures(activity: FragmentActivity, pictureHolders: ArrayList<ImageView>, usrType: String, usr: User){
             var i = 0
@@ -263,27 +316,26 @@ class FirebaseHelper {
             }
         }
 
-        suspend fun savePictures(pictureHolders: ArrayList<ImageView>, usrType: String, usr: User){
-            for(i: ImageView in pictureHolders){
-                if(i.contentDescription != "stock" && i.contentDescription != "default_pic"){
-                    val baos = ByteArrayOutputStream()
-                    i.drawable.toBitmap().compress(Bitmap.CompressFormat.JPEG, 100, baos)
-                    val data = baos.toByteArray()
-                    firebaseStorageRef.child("images/${usr.uid}/${i.id}").putBytes(data).await()
-                    i.contentDescription = i.id.toString()
-                } else if (i.contentDescription == "stock"){
-                    try {
-                        firebaseStorageRef.child("images/${firebaseUser.uid}/${i.id}").delete().await()
-                    } catch (e: StorageException){}
-                }
-            }
-        }
+//        suspend fun savePictures(pictureHolders: ArrayList<ImageView>, usrType: String, usr: User){
+//            for(i: ImageView in pictureHolders){
+//                if(i.contentDescription != "stock" && i.contentDescription != "default_pic"){
+//                    val baos = ByteArrayOutputStream()
+//                    i.drawable.toBitmap().compress(Bitmap.CompressFormat.JPEG, 100, baos)
+//                    val data = baos.toByteArray()
+//                    firebaseStorageRef.child("images/${usr.uid}/${i.id}").putBytes(data).await()
+//                    i.contentDescription = i.id.toString()
+//                } else if (i.contentDescription == "stock"){
+//                    try {
+//                        firebaseStorageRef.child("images/${firebaseUser.uid}/${i.id}").delete().await()
+//                    } catch (e: StorageException){}
+//                }
+//            }
+//        }
 
         suspend fun saveChanges(usrType: String, usr: User){
             val userData: HashMap<String, Any>
             if(usrType == "dogs"){
                 userData = hashMapOf(
-                    "pictures" to usr.pictures,
                     "bio" to usr.bio,
                     "age" to usr.age,
                     "weight" to (usr as Dog).weight,
@@ -293,7 +345,6 @@ class FirebaseHelper {
                 ) as HashMap<String, Any>
             } else {
                 userData = hashMapOf(
-                    "pictures" to usr.pictures,
                     "bio" to usr.bio,
                     "age" to usr.age,
                     "range" to usr.range

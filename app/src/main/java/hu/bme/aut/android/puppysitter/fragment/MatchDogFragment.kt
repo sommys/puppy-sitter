@@ -78,10 +78,21 @@ class MatchDogFragment(): Fragment() {
     private suspend fun showNextMatch(currentMatch: User) {
         GlobalScope.launch { downloadPictures(currentMatch) }
         activity?.runOnUiThread {
-            binding.profileDetails.tvAge.text = currentMatch.age.toString()
             binding.profileDetails.tvUsername.text = currentMatch.userName
             binding.profileDetails.tvRealName.text = currentMatch.name
-            binding.profileDetails.tvBio.text = currentMatch.bio.toString()
+
+            if(currentMatch.age ?: 0L != 0L){
+                binding.profileDetails.tvAge.text = currentMatch.age.toString()
+            } else {
+                binding.profileDetails.tvAge.visibility = View.INVISIBLE
+                binding.profileDetails.tvAgeLabel.visibility = View.INVISIBLE
+            }
+            if(currentMatch.bio ?: "" != ""){
+                binding.profileDetails.tvBio.text = currentMatch.bio.toString()
+            } else {
+                binding.profileDetails.tvBio.visibility = View.INVISIBLE
+                binding.profileDetails.tvBioLabel.visibility = View.INVISIBLE
+            }
         }
     }
 

@@ -3,6 +3,7 @@ package hu.bme.aut.android.puppysitter.fragment
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -19,7 +20,7 @@ import hu.bme.aut.android.puppysitter.R
 import hu.bme.aut.android.puppysitter.databinding.FragmentEditSitterBinding
 import hu.bme.aut.android.puppysitter.helper.FirebaseHelper
 import hu.bme.aut.android.puppysitter.helper.FirebaseHelper.Companion.saveChanges
-import hu.bme.aut.android.puppysitter.helper.FirebaseHelper.Companion.savePictures
+//import hu.bme.aut.android.puppysitter.helper.FirebaseHelper.Companion.savePictures
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
@@ -65,8 +66,8 @@ class EditSitterFragment: Fragment() {
         binding.editDetailsSitter.btnSubmit.setOnClickListener {
             modifyUserData()
             GlobalScope.launch {
-                savePictures(pictureHolders, "sitters", args.usr)
-                args.usr.pictures = getPicturePaths()
+//                savePictures(pictureHolders, "sitters", args.usr)
+//                args.usr.pictures = getPicturePaths()
                 saveChanges("sitters", args.usr)
                 withContext(Dispatchers.Main){
                     Toast.makeText(this@EditSitterFragment.activity, "Changes saved!", Toast.LENGTH_SHORT).show()
@@ -76,8 +77,8 @@ class EditSitterFragment: Fragment() {
         binding.btnBack.setOnClickListener {
             modifyUserData()
             GlobalScope.launch {
-                savePictures(pictureHolders, "sitters", args.usr)
-                args.usr.pictures = getPicturePaths()
+//                savePictures(pictureHolders, "sitters", args.usr)
+//                args.usr.pictures = getPicturePaths()
                 saveChanges("sitters", args.usr)
                 withContext(Dispatchers.Main){
                     Toast.makeText(this@EditSitterFragment.activity, "Changes saved!", Toast.LENGTH_SHORT).show()
@@ -102,11 +103,13 @@ class EditSitterFragment: Fragment() {
 
     private fun onImageClick(it: ImageView) {
         if(it.contentDescription == "stock"){
-            UploadPictureDialogFragment(getFirstEmptyImageView()!!).show(parentFragmentManager, "")
+            UploadPictureDialogFragment(this, getFirstEmptyImageView()!!, false, args.usr, "sitters").show(parentFragmentManager, "")
         } else {
-            EditPictureDialogFragment(it, this, "sitters").show(parentFragmentManager, "")
+            EditPictureDialogFragment(it, this,args.usr, "sitters", isLast(it)).show(parentFragmentManager, "")
         }
     }
+
+    private fun isLast(it: ImageView): Boolean = it.id == R.id.img1 && binding.picturesLayout.img2.contentDescription == "stock"
 
     fun rearrangeHolders() {
         val bitmaps: ArrayList<Bitmap> = arrayListOf()
@@ -123,7 +126,6 @@ class EditSitterFragment: Fragment() {
             pictureHolders[i].contentDescription = pictureHolders[i].id.toString()
             i++
         }
-        GlobalScope.launch{savePictures(pictureHolders,"sitters", args.usr)}
     }
 
     fun setPictureHolders() {
