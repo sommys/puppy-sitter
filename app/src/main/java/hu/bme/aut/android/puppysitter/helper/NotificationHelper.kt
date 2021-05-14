@@ -5,6 +5,7 @@ import android.app.NotificationManager
 import android.app.PendingIntent
 import android.content.Context
 import android.content.Intent
+import android.graphics.BitmapFactory
 import android.net.Uri
 import android.os.Build
 import androidx.core.app.NotificationCompat
@@ -27,7 +28,8 @@ class NotificationHelper(val context: Context) {
             PendingIntent.getActivity(context, 0, emailIntent, 0)
         createNotificationChannel()
         val noti = NotificationCompat.Builder(context, CHANNEL_ID)
-            .setSmallIcon(R.mipmap.app_logo_round)
+            .setSmallIcon(android.R.drawable.star_off)
+            .setLargeIcon(BitmapFactory.decodeResource(context.resources, R.raw.app_logo))
             .setContentTitle("It's a MATCH!")
             .setContentText("You'vel matched with ${m.userName}")
             .setContentIntent(emailPendingIntent)

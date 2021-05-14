@@ -14,7 +14,7 @@
             android:name="usr"
             app:argType="hu.bme.aut.android.puppysitter.model.Dog" />
         <argument android:name="profilePicture"
-            app:argType="android.graphics.Bitmap" />
+            app:argType="string" />
         <argument
             android:name="awayMatches"
             app:argType="hu.bme.aut.android.puppysitter.model.User[]" />
@@ -31,7 +31,7 @@
             android:name="usr"
             app:argType="hu.bme.aut.android.puppysitter.model.User" />
         <argument android:name="profilePicture"
-            app:argType="android.graphics.Bitmap" />
+            app:argType="string" />
         <argument
             android:name="awayMatches"
             app:argType="hu.bme.aut.android.puppysitter.model.User[]" />

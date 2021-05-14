@@ -9,6 +9,7 @@ import androidx.fragment.app.Fragment
 import androidx.navigation.NavController
 import androidx.navigation.Navigation
 import androidx.navigation.fragment.navArgs
+import com.bumptech.glide.Glide
 import hu.bme.aut.android.puppysitter.MatcherActivity
 import hu.bme.aut.android.puppysitter.databinding.FragmentProfileSitterBinding
 import hu.bme.aut.android.puppysitter.helper.NotificationHelper
@@ -33,7 +34,8 @@ class ProfileSitterFragment: Fragment() {
         super.onViewCreated(view, savedInstanceState)
         navController = Navigation.findNavController(view)
 
-        binding.ivProfilePicture.setImageBitmap(args.profilePicture)
+//        binding.ivProfilePicture.setImageBitmap(args.profilePicture)
+        Glide.with(this).load(args.profilePicture).into(binding.ivProfilePicture)
         binding.profileDetails.tvUsername.text = args.usr.userName
         binding.profileDetails.tvRealName.text = args.usr.name
 

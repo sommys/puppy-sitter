@@ -118,16 +118,17 @@ class MatchSitterFragment(): Fragment() {
             binding.toolbarProgressBar.visibility = View.VISIBLE
             binding.pager.visibility = View.INVISIBLE
         }
-        val images: ArrayList<Bitmap> = arrayListOf()
+        val images: ArrayList<String> = arrayListOf()
         runBlocking {
             for (pic: String in currentMatch.pictures) {
                 val uri = storage.child(pic).downloadUrl.await()
-                val url = URL(uri.toString())
-                images.add(BitmapFactory.decodeStream(url.openConnection().getInputStream()))
+                images.add(uri.toString())
+//                val url = URL(uri.toString())
+//                images.add(BitmapFactory.decodeStream(url.openConnection().getInputStream()))
             }
         }
         withContext(Dispatchers.Main){
-            adapter = ViewPagerAdapter(layoutInflater, images, binding.appbar)
+            adapter = ViewPagerAdapter(requireContext(), layoutInflater, images, binding.appbar)
             binding.pager.adapter = adapter
             binding.toolbarProgressBar.visibility = View.INVISIBLE
             binding.pager.visibility = View.VISIBLE

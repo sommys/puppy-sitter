@@ -6,6 +6,9 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".fragment.ProfileSitterFragment">
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/topLayout"
         android:layout_height="wrap_content"
@@ -21,12 +24,15 @@
             app:layout_constraintTop_toTopOf="parent" />
         <ImageView
             android:id="@+id/ivProfilePicture"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            tools:srcCompat="@tools:sample/avatars"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            app:layout_constraintWidth_percent="0.8"
+            app:layout_constraintWidth_default="percent"
+            app:layout_constraintDimensionRatio="1:1"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/btnMatch" />
+            app:layout_constraintTop_toBottomOf="@+id/btnMatch"
+            tools:srcCompat="@tools:sample/avatars"/>
         <ImageButton
             android:id="@+id/btnEditProfile"
             android:layout_width="wrap_content"
@@ -36,15 +42,16 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/ivProfilePicture"
             app:srcCompat="@android:drawable/ic_menu_edit" />
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/btnEditProfile">
+            <include android:id="@+id/profileDetails"
+                layout="@layout/profile_details_sitter" />
+        </FrameLayout>
     </androidx.constraintlayout.widget.ConstraintLayout>
-    <ScrollView
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/topLayout">
-        <include android:id="@+id/profileDetails"
-            layout="@layout/profile_details_sitter"/>
     </ScrollView>
 </androidx.constraintlayout.widget.ConstraintLayout>
