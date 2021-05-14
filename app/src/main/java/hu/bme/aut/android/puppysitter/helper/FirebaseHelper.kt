@@ -113,7 +113,7 @@ class FirebaseHelper {
                         .build()
                     firebaseUser?.updateProfile(profileChangeRequest)
                     Toast.makeText(activity,"Registration successful", Toast.LENGTH_SHORT).show()
-                    if(usrType == "DOG"){
+                    if(usrType == "dogs"){
                         val matchType = "sitters"
                         val usr = Dog(firebaseUser.uid, email,userName)
                         var matchablesList: ArrayList<String> = arrayListOf()
@@ -122,7 +122,6 @@ class FirebaseHelper {
                                 qs.documents.forEach {
                                     matchablesList.add(it.id)
                                 }
-                                Toast.makeText(activity, "Got matchables", Toast.LENGTH_SHORT).show()
                                 firebaseFirestore.collection("dogs").document(firebaseUser.uid).set(hashMapOf(
                                     "uid" to firebaseUser.uid,
                                     "user_type" to "dogs",
@@ -156,7 +155,6 @@ class FirebaseHelper {
                                 qs.documents.forEach {
                                     matchablesList.add(it.id)
                                 }
-                                Toast.makeText(activity, "Got matchables", Toast.LENGTH_SHORT).show()
                                 firebaseFirestore.collection("sitters").document(firebaseUser.uid).set(hashMapOf(
                                     "uid" to firebaseUser.uid,
                                     "user_type" to "sitters",
@@ -171,10 +169,11 @@ class FirebaseHelper {
                                     "matchables" to matchablesList,
                                     "possibleMatch" to arrayListOf<String>(),
                                     "match" to arrayListOf<String>()
-                                ))
-                                CoroutineScope(Dispatchers.IO).launch {
-                                    addToMatchables(matchType)
-                                    uploadDefaultPicture(activity!!, usrType, email, password)
+                                )).addOnSuccessListener {
+                                    CoroutineScope(Dispatchers.IO).launch {
+                                        addToMatchables(matchType)
+                                        uploadDefaultPicture(activity!!, usrType, email, password)
+                                    }
                                 }
                             }
                         }
@@ -190,7 +189,7 @@ class FirebaseHelper {
             if(!::firebaseUser.isInitialized){
                 firebaseUser = firebaseAuth.currentUser!!
             }
-            firebaseFirestore.collection("${usrType.toLowerCase()}s").document(firebaseUser.uid).update(
+            firebaseFirestore.collection(usrType).document(firebaseUser.uid).update(
                 hashMapOf(
                     "location" to location
                 ) as Map<String, Any>)
@@ -218,11 +217,7 @@ class FirebaseHelper {
 
         private fun uploadDefaultPicture(activity: FragmentActivity, usrType: String, email: String, password: String,) {
             firebaseUserStorage = firebaseStorageRef.child("images/${firebaseUser.uid}")
-            val pictures: ArrayList<String> = arrayListOf()
-            pictures.add("images/${firebaseUser.uid}/default_pic")
-            firebaseFirestore.collection("${usrType.toLowerCase()}s").document(firebaseUser.uid).update(hashMapOf(
-                "pictures" to pictures
-            ) as Map<String, Any>)
+            firebaseFirestore.collection(usrType).document(firebaseUser.uid).update("pictures", FieldValue.arrayUnion("images/${firebaseUser.uid}/default_pic"))
             val baos = ByteArrayOutputStream()
             BitmapFactory.decodeStream(activity.resources.openRawResource(R.raw.default_pic)).compress(
                 Bitmap.CompressFormat.JPEG, 100, baos)

@@ -28,7 +28,6 @@ class LocationService : Service() {
 
     override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
         Log.d("LOCATION_CHANGED", "OK")
-//        startForeground(LOCATION_NOTIFICATION_ID, createNotification("PuppySitter is using your location"))
         if (locationHelper == null) {
             val helper = LocationHelper(applicationContext, LocationServiceCallback())
             helper.startLocationMonitoring()

@@ -36,7 +36,7 @@ class RegisterFragment(): Fragment() {
         super.onViewCreated(view, savedInstanceState)
         binding.btnSignUpLogin.setOnClickListener {
             if(validateRegistration())
-                FirebaseHelper.register(activity, binding.itRegisterEmail.text.toString(), binding.itRegisterUsername.text.toString(), binding.itRegisterRealName.text.toString(), binding.itPassword.text.toString(), binding.spinnerType.selectedItem.toString().toUpperCase())
+                FirebaseHelper.register(activity, binding.itRegisterEmail.text.toString(), binding.itRegisterUsername.text.toString(), binding.itRegisterRealName.text.toString(), binding.itPassword.text.toString(), "${binding.spinnerType.selectedItem.toString().toLowerCase()}s")
         }
     }
 
