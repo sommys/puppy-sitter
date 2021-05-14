@@ -2,6 +2,7 @@ package hu.bme.aut.android.puppysitter.fragment
 
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -52,8 +53,10 @@ class ProfileSitterFragment: Fragment() {
             binding.profileDetails.tvBioLabel.visibility = View.INVISIBLE
         }
 
+        Log.d("USRLOC", args.usr.location!!.latitude.toString())
+
         binding.btnMatch.setOnClickListener {
-            val intent = Intent(activity, MatcherActivity::class.java).putExtra("USER_TYPE", activity?.intent?.extras?.get("USER_TYPE") as String).putExtra("USER", activity?.intent?.extras?.get("USER") as User)
+            val intent = Intent(activity, MatcherActivity::class.java).putExtra("USER_TYPE", "sitters").putExtra("USER", args.usr)
             activity?.startActivity(intent)
             activity?.finish()
         }

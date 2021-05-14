@@ -73,6 +73,9 @@ class MatchSitterFragment(): Fragment() {
                 GlobalScope.launch { showNextMatch(currentMatch) }
             }
         }
+        binding.btnDown.setOnClickListener {
+            binding.appbar.setExpanded(true)
+        }
     }
 
     private suspend fun showNextMatch(currentMatch: Dog) {

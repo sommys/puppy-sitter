@@ -43,6 +43,7 @@ class MatcherActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         usrType = intent.extras?.get("USER_TYPE") as String
         usr = intent.extras?.get("USER") as User
+        Log.d("USRLOCMATCH", usr.location!!.latitude.toString())
         setContentView(R.layout.activity_matcher)
     }
 

@@ -40,6 +40,7 @@ class LocationService : Service() {
 
     override fun onDestroy() {
         FirebaseHelper.updateLocation(location!!, usrType)
+        usr.location = location!!
         locationHelper?.stopLocationMonitoring()
 
         super.onDestroy()
@@ -54,6 +55,7 @@ class LocationService : Service() {
                 lat = result.lastLocation.latitude
                 lon = result.lastLocation.longitude
                 location = result.lastLocation
+                usr.location = location
                 FirebaseHelper.updateLocation(location!!, usrType)
                 val intent = Intent()
                 intent.action = BR_NEW_LOCATION
@@ -64,6 +66,7 @@ class LocationService : Service() {
                 lat = result.lastLocation.latitude
                 lon = result.lastLocation.longitude
                 location = result.lastLocation
+                usr.location = location
                 FirebaseHelper.updateLocation(location!!, usrType)
                 val intent = Intent()
                 intent.action = BR_NEW_LOCATION

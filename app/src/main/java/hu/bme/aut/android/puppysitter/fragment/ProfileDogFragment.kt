@@ -70,11 +70,7 @@ class ProfileDogFragment() : Fragment() {
         }
 
         binding.btnMatch.setOnClickListener {
-            val intent = Intent(activity, MatcherActivity::class.java).putExtra(
-                "USER_TYPE", activity?.intent?.extras?.get(
-                    "USER_TYPE"
-                ) as String
-            ).putExtra("USER", activity?.intent?.extras?.get("USER") as User)
+            val intent = Intent(activity, MatcherActivity::class.java).putExtra("USER_TYPE", "dogs").putExtra("USER", args.usr)
             activity?.startActivity(intent)
             activity?.finish()
         }

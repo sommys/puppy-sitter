@@ -16,7 +16,6 @@ import hu.bme.aut.android.puppysitter.model.User
 
 class NotificationHelper(val context: Context) {
     companion object{
-        const val EMAIL_NOTIFICATION_ID = 101
         const val CHANNEL_ID = "MatchNotificationChannel"
     }
 
@@ -31,7 +30,7 @@ class NotificationHelper(val context: Context) {
             .setSmallIcon(android.R.drawable.star_off)
             .setLargeIcon(BitmapFactory.decodeResource(context.resources, R.raw.app_logo))
             .setContentTitle("It's a MATCH!")
-            .setContentText("You'vel matched with ${m.userName}")
+            .setContentText("You've matched with ${m.userName}")
             .setContentIntent(emailPendingIntent)
         removeMatch(m, usrType)
         with(NotificationManagerCompat.from(context)) {

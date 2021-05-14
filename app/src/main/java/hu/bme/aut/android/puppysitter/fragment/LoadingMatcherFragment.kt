@@ -45,7 +45,6 @@ class LoadingMatcherFragment: Fragment() {
         GlobalScope.launch { setUpMatcher() }
     }
 
-    //TODO
     suspend fun setUpMatcher(){
         usr = activity?.intent?.extras?.get("USER") as User
         usrType = activity?.intent?.extras?.get("USER_TYPE") as String
